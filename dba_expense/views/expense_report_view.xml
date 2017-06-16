@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="report_expense_sheet_dba">
+            <field name="name">report_expense_sheet</field>
+            <field name="type">qweb</field>
+            <field name="inherit_id" ref="hr_expense.report_expense_sheet"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='page']/p" position="before">
+                    <div class="row">
+		                <div class="col-xs-4 pull-right">
+		                    <table class="table table-condensed" style="border:none;">
+		                        <tr style="border:none;">
+		                            <td style="border:none;">Received By(Date &amp; Signature)</td>
+		                        </tr>
+		                    </table>
+		                </div>
+	                </div>
+	                <br/><br/><br/>
+	                <div class="row">
+		                <div class="col-xs-4 pull-right">
+		                    <table class="table table-condensed" style="border:none;">
+		                        <tr style="border:none;">
+		                        	<td style="border:none;">PC#:</td>
+		                            <td style="border:none;" class="text-right"><span t-esc="o.expense_line_ids[0].pc_no"/></td>
+		                        </tr>
+		                    </table>
+		                </div>
+	                </div>
+	                
+	                <div class="row">
+		                <div class="col-xs-4 pull-right">
+		                    <table class="table table-condensed" style="border:none;">
+		                        <tr style="border:none;">
+		                        	<td style="border:none;">Cheque No:</td>
+		                            <td style="border:none;" class="text-right"><span t-esc="o.expense_line_ids[0].cheque_no"/></td>
+		                        </tr>
+		                    </table>
+		                </div>
+	                </div>
+                </xpath>
+            </field>
+        </record>
+
+   </data>
+</openerp>

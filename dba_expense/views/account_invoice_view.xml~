@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="account.action_invoice_tree1" model="ir.actions.act_window">
+        <field name="name">Customer Invoices</field>
+        <field name="res_model">account.invoice</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,kanban,form,calendar,pivot,graph</field>
+        <field eval="False" name="view_id"/>
+        <field name="domain">[('type','=','out_invoice')]</field>
+        <field name="context">{'type':'out_invoice', 'journal_type': 'sale'}</field>
+        <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click to create a customer invoice.
+          </p><p>
+            Odoo's electronic invoicing allows to ease and fasten the
+            collection of customer payments. Your customer receives the
+            invoice by email and he can pay online and/or import it
+            in his own system.
+          </p><p>
+            The discussions with your customer are automatically displayed at
+            the bottom of each invoice.
+          </p>
+        </field>
+    </record>
+    
+    <record id="action_invoice_tree1_refund" model="ir.actions.act_window">
+        <field name="name">Customer Refund</field>
+        <field name="res_model">account.invoice</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,kanban,form,calendar,pivot,graph</field>
+        <field eval="False" name="view_id"/>
+        <field name="domain">[('type','=','out_refund')]</field>
+        <field name="context">{'type':'out_refund', 'journal_type': 'sale'}</field>
+        <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click to create a customer refund.
+          </p><p>
+            Odoo's electronic invoicing allows to ease and fasten the
+            collection of customer payments. Your customer receives the
+            invoice by email and he can pay online and/or import it
+            in his own system.
+          </p><p>
+            The discussions with your customer are automatically displayed at
+            the bottom of each invoice.
+          </p>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="account.view_invoice_pivot">
+        <field name="name">account.invoice.pivot</field>
+        <field name="model">account.invoice</field>
+        <field name="arch" type="xml">
+            <pivot string="Invoices" display_quantity="true">
+                <field name="partner_id" type="col"/>
+                <field name="number" type="col"/>
+                <field name="date_invoice" type="col"/>
+                <field name="user_id" type="col"/>
+                <field name="date_due" type="col"/>
+                <field name="currency_id" type="col"/>
+                <field name="amount_total" type="col"/>
+                <field name="comment" type="col"/>
+                <field name="user_id" type="col"/>
+            </pivot>
+        </field>
+    </record>
+    
+    <menuitem action="action_invoice_tree1_refund" id="menu_action_invoice_tree1_refund" parent="account.menu_finance_receivables" sequence="2"/>
+</odoo>
+
