@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="local_tra" model="product.product">
+            <field name="name">Local Transport</field>
+            <field name="can_be_expensed">True</field>
+            <field name="type">service</field>
+        </record>
+        <record id="o_sea_tra" model="product.product">
+            <field name="name">O/seas Transport</field>
+            <field name="can_be_expensed">True</field>
+            <field name="type">service</field>
+        </record>
+        <record id="meal" model="product.product">
+            <field name="name">Meal</field>
+            <field name="can_be_expensed">True</field>
+            <field name="type">service</field>
+        </record>
+        <record id="entertainment" model="product.product">
+            <field name="name">Entertainment</field>
+            <field name="can_be_expensed">True</field>
+            <field name="type">service</field>
+        </record>
+        <record id="post_courier" model="product.product">
+            <field name="name">Postage / Couriers</field>
+            <field name="can_be_expensed">True</field>
+            <field name="type">service</field>
+        </record>
+        <record id="off_sta" model="product.product">
+            <field name="name">Office Stationery</field>
+            <field name="can_be_expensed">True</field>
+            <field name="type">service</field>
+        </record>
+        <record id="pant_exp" model="product.product">
+            <field name="name">Pantry Expenses</field>
+            <field name="can_be_expensed">True</field>
+            <field name="type">service</field>
+        </record>
+        <record id="per_diem" model="product.product">
+            <field name="name">Per diem</field>
+            <field name="can_be_expensed">True</field>
+            <field name="type">service</field>
+        </record>
+        <record id="medical" model="product.product">
+            <field name="name">Medical</field>
+            <field name="can_be_expensed">True</field>
+            <field name="type">service</field>
+        </record>
+        <record id="phone_bil" model="product.product">
+            <field name="name">Phone Bill</field>
+            <field name="can_be_expensed">True</field>
+            <field name="type">service</field>
+        </record>
+        <record id="air_ticket" model="product.product">
+            <field name="name">Air-Ticket</field>
+            <field name="can_be_expensed">True</field>
+            <field name="type">service</field>
+        </record>
+        <record id="housekeeping" model="product.product">
+            <field name="name">Housekeeping</field>
+            <field name="can_be_expensed">True</field>
+            <field name="type">service</field>
+        </record>
+        
+        <!--record id="medical_limit" model="medical.claim.limit">
+            <field name="medical_claim_limit">40</field>
+        </record-->
+        
+    </data>
+</odoo>

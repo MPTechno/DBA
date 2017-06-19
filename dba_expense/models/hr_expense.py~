@@ -10,7 +10,7 @@ class hr_expense(models.Model):
 	
     paid_by = fields.Selection([('Cash','Cash'),('Cheque','Cheque')],'Paid By', default='Cash')
     cheque_no = fields.Char('Cheque No')
-    pc_no = fields.Text('PC#')
+    pc_no = fields.Char('PC#')
     
     @api.onchange('product_id')
     def _onchange_product_id(self):
