@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!--<record id="project_timesheet" model="project.project">-->
+            <!--<field name="name">Contracts</field>-->
+            <!--<field name="use_tasks">0</field>-->
+            <!--<field name="allow_timesheets">1</field>-->
+        <!--</record>-->
+
+        <record id="timesheet_journal" model="account.journal">
+            <field name="name">Timesheets</field>
+            <field name="type">general</field>
+            <field name="code">TIMESHEET</field>
+            <!--<field name="default_debit_account_id">TIMESHEET</field>-->
+            <!--<field name="default_credit_account_id">TIMESHEET</field>-->
+        </record>
+    </data>
+</odoo>
