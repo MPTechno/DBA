@@ -25,11 +25,13 @@
                     <field name="account_id"/>
                     <field name="project_id" required="0" invisible="1"/>
                     <field name="journal_id"/>
+                    <field name="general_account_id"/>
                 </xpath>
                 <xpath expr="//field[@name='timesheet_ids']/form/group/field[@name='project_id']" position='replace'>
                     <field name="account_id"/>
                     <field name="project_id" required="0" invisible="1"/>
                     <field name="journal_id"/>
+                    <field name="general_account_id"/>
                 </xpath>
             </field>
         </record>
@@ -123,6 +125,7 @@
                 <field name="account_id" position="after">
                     <field name="to_invoice"/>
                     <field name="journal_id"/>
+                    <field name="general_account_id"/>
                 </field>
             </field>
         </record>
@@ -136,6 +139,7 @@
                     <field name="to_invoice"/>
                     <field name="invoice_id"/>
                     <field name="journal_id"/>
+                    <field name="general_account_id"/>
                 </field>
             </field>
         </record>

@@ -1,0 +1,10 @@
+*.pyc
+tmp/*
+*.deb
+*.zip
+*.log
+*.zip*
+ubuntu
+.idea*
+.bundle
+odoo

@@ -139,7 +139,7 @@ setTimeout(function() {
                 accounts = _(accounts).chain().map(function(lines, account_id) {
                     var accounts_defaults = _.extend({}, default_get, (accounts[account_id] || {}).value || {});
                     // group by days
-                    account_id = (account_id === "false")? false : Number(account_id      );
+                    account_id = (account_id === "false")? false : Number(account_id);
                     var index = _.groupBy(lines, 'date');
                     var days = _.map(dates, function(date) {
                         var day = {day: date, lines: index[time.date_to_str(date)] || []};

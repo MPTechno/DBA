@@ -23,5 +23,6 @@ import wizard
 import report
 import account_analytic_account
 import account_analytic_line
+import hr_timesheet_sheet
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
