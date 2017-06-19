@@ -1,0 +1,226 @@
+<odoo>
+    <data>
+        <record id="view_partner_field_editor_form" model="ir.ui.view">
+            <field name="name">Partner Form - Add Field</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='internal_notes']" position="before">
+                	<page string="Information">
+                		<header>
+                			<button name="%(action_field_create)d" string="Add New Field" type="action" class="fbutton oe_highlight"/>
+                			<button name="%(action_field_editor)d" string="Edit/Delete Fields" type="action" class="fbutton oe_highlight"/>
+                       	</header>
+                       	<group name="Information" col="4">
+                       	</group>
+                	</page>
+                </xpath>
+            </field>
+        </record>
+
+        <!--<record id="view_sale_order_form" model="ir.ui.view">-->
+            <!--<field name="name">Sales Order Form - Add Field</field>-->
+            <!--<field name="model">sale.order</field>-->
+            <!--<field name="inherit_id" ref="sale.view_order_form"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--&lt;!&ndash; page[@string='Order Lines' &ndash;&gt;-->
+                <!--<xpath expr="//notebook" position="inside">-->
+                	<!--<page string="Information">-->
+                		<!--<header>-->
+                			<!--<button name="%(action_field_create)d" string="Add New Field" type="action" class="fbutton oe_highlight"/>-->
+                			<!--<button name="%(action_field_editor)d" string="Edit/Delete Fields" type="action" class="fbutton oe_highlight"/>-->
+                       	<!--</header>-->
+                       	<!--<group name="Information" col="4">-->
+                       	<!--</group>-->
+                	<!--</page>-->
+                <!--</xpath>-->
+            <!--</field>-->
+        <!--</record>-->
+
+        <!--<record id="view_purchase_order_form" model="ir.ui.view">-->
+            <!--<field name="name">Purchase Order Form - Add Field</field>-->
+            <!--<field name="model">purchase.order</field>-->
+            <!--<field name="inherit_id" ref="purchase.purchase_order_form"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--&lt;!&ndash; page[@string='Products'] &ndash;&gt;-->
+                <!--<xpath expr="//notebook" position="inside">-->
+                	<!--<page string="Information">-->
+                		<!--<header>-->
+                			<!--<button name="%(action_field_create)d" string="Add New Field" type="action" class="fbutton oe_highlight"/>-->
+                			<!--<button name="%(action_field_editor)d" string="Edit/Delete Fields" type="action" class="fbutton oe_highlight"/>-->
+                       	<!--</header>-->
+                       	<!--<group name="Information" col="4">-->
+                       	<!--</group>-->
+                	<!--</page>-->
+                <!--</xpath>-->
+            <!--</field>-->
+        <!--</record>-->
+
+        <!--<record id="view_invoice_form" model="ir.ui.view">-->
+            <!--<field name="name">Customer Invoice Form - Add Field</field>-->
+            <!--<field name="model">account.invoice</field>-->
+            <!--<field name="inherit_id" ref="account.invoice_form"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<xpath expr="//page[@name='other_info']" position="before">-->
+                	<!--<page string="Information">-->
+                		<!--<header>-->
+                			<!--<button name="%(action_field_create)d" string="Add New Field" type="action" class="fbutton oe_highlight"/>-->
+                			<!--<button name="%(action_field_editor)d" string="Edit/Delete Fields" type="action" class="fbutton oe_highlight"/>-->
+                       	<!--</header>-->
+                       	<!--<group name="Information" col="4">-->
+                       	<!--</group>-->
+                	<!--</page>-->
+                <!--</xpath>-->
+            <!--</field>-->
+        <!--</record>-->
+
+        <!--<record id="view_invoice_supplier_form" model="ir.ui.view">-->
+            <!--<field name="name">Supplier Invoice Form - Add Field</field>-->
+            <!--<field name="model">account.invoice</field>-->
+            <!--<field name="inherit_id" ref="account.invoice_supplier_form"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--&lt;!&ndash; page[@string='Bill'] &ndash;&gt;-->
+                <!--<xpath expr="//notebook" position="inside">-->
+                	<!--<page string="Information">-->
+                		<!--<header>-->
+                			<!--<button name="%(action_field_create)d" string="Add New Field" type="action" class="fbutton oe_highlight"/>-->
+                			<!--<button name="%(action_field_editor)d" string="Edit/Delete Fields" type="action" class="fbutton oe_highlight"/>-->
+                       	<!--</header>-->
+                       	<!--<group name="Information" col="4">-->
+                       	<!--</group>-->
+                	<!--</page>-->
+                <!--</xpath>-->
+            <!--</field>-->
+        <!--</record>-->
+
+        <!--<record id="view_product_template_form" model="ir.ui.view">-->
+            <!--<field name="name">Product Template Form - Add Field</field>-->
+            <!--<field name="model">product.template</field>-->
+            <!--<field name="inherit_id" ref="product.product_template_form_view"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<xpath expr="//page[@name='general_information']" position="inside">-->
+               		<!--<group name="header" col="4">-->
+                		<!--<header>-->
+                			<!--<button name="%(action_field_create)d" string="Add New Field" type="action" class="fbutton oe_highlight"/>-->
+                			<!--<button name="%(action_field_editor)d" string="Edit/Delete Fields" type="action" class="fbutton oe_highlight"/>-->
+                       	<!--</header>-->
+                    <!--</group>-->
+                   	<!--<group name="Information" col="4">-->
+                   	<!--</group>-->
+                <!--</xpath>-->
+            <!--</field>-->
+        <!--</record>-->
+
+        <!--<record id="view_picking_form" model="ir.ui.view">-->
+            <!--<field name="name">Picking Form - Add Field</field>-->
+            <!--<field name="model">stock.picking</field>-->
+            <!--<field name="inherit_id" ref="stock.view_picking_form"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<xpath expr="//page[@name='extra']" position="before">-->
+              		<!--<page string="Information">-->
+	              		<!--<header>-->
+	              			<!--<button name="%(action_field_create)d" string="Add New Field" type="action" class="fbutton oe_highlight"/>-->
+	              			<!--<button name="%(action_field_editor)d" string="Edit/Delete Fields" type="action" class="fbutton oe_highlight"/>-->
+	                     <!--</header>-->
+	                   	<!--<group name="Information" col="4">-->
+	                   	<!--</group>-->
+	               	<!--</page>-->
+                <!--</xpath>-->
+            <!--</field>-->
+        <!--</record>-->
+
+        <!--<record id="view_account_analytic_account_form" model="ir.ui.view">-->
+            <!--<field name="name">Analytic Account - Add Field</field>-->
+            <!--<field name="model">account.analytic.account</field>-->
+            <!--<field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<xpath expr="//group[@name='main']" position='before'>-->
+                    <!--<notebook groups="account.group_user">-->
+                        <!--<page string="Information">-->
+                            <!--<header>-->
+                                <!--<button name="%(action_field_create)d" string="Add New Field" type="action" class="fbutton oe_highlight"/>-->
+                                <!--<button name="%(action_field_editor)d" string="Edit/Delete Fields" type="action" class="fbutton oe_highlight"/>-->
+                             <!--</header>-->
+                            <!--<group name="Information" col="4">-->
+                            <!--</group>-->
+                        <!--</page>-->
+                    <!--</notebook>-->
+                <!--</xpath>-->
+            <!--</field>-->
+        <!--</record>-->
+
+        <!--<record id="view_project_form" model="ir.ui.view">-->
+            <!--<field name="name">Project - Add Field</field>-->
+            <!--<field name="model">project.project</field>-->
+            <!--<field name="inherit_id" ref="project.edit_project"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--&lt;!&ndash; page[@string='Team &ndash;&gt;-->
+                <!--<xpath expr="//notebook" position="inside">-->
+              		<!--<page string="Information">-->
+	              		<!--<header>-->
+	              			<!--<button name="%(action_field_create)d" string="Add New Field" type="action" class="fbutton oe_highlight"/>-->
+	              			<!--<button name="%(action_field_editor)d" string="Edit/Delete Fields" type="action" class="fbutton oe_highlight"/>-->
+	                     <!--</header>-->
+	                   	<!--<group name="Information" col="4">-->
+	                   	<!--</group>-->
+	               	<!--</page>-->
+                <!--</xpath>-->
+            <!--</field>-->
+        <!--</record>-->
+
+        <!--<record id="view_lead_form" model="ir.ui.view">-->
+            <!--<field name="name">Leads - Add Field</field>-->
+            <!--<field name="model">crm.lead</field>-->
+            <!--<field name="inherit_id" ref="crm.crm_case_form_view_leads"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<xpath expr="//page[@name='extra']" position="before">-->
+              		<!--<page string="Information">-->
+	              		<!--<header>-->
+	              			<!--<button name="%(action_field_create)d" string="Add New Field" type="action" class="fbutton oe_highlight"/>-->
+	              			<!--<button name="%(action_field_editor)d" string="Edit/Delete Fields" type="action" class="fbutton oe_highlight"/>-->
+	                     <!--</header>-->
+	                   	<!--<group name="Information" col="4">-->
+	                   	<!--</group>-->
+	               	<!--</page>-->
+                <!--</xpath>-->
+            <!--</field>-->
+        <!--</record>-->
+
+        <!--<record id="view_oppor_form" model="ir.ui.view">-->
+            <!--<field name="name">Opportunity - Add Field</field>-->
+            <!--<field name="model">crm.lead</field>-->
+            <!--<field name="inherit_id" ref="crm.crm_case_form_view_oppor"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<xpath expr="//page[@name='lead']" position="before">-->
+              		<!--<page string="Information">-->
+	              		<!--<header>-->
+	              			<!--<button name="%(action_field_create)d" string="Add New Field" type="action" class="fbutton oe_highlight"/>-->
+	              			<!--<button name="%(action_field_editor)d" string="Edit/Delete Fields" type="action" class="fbutton oe_highlight"/>-->
+	                     <!--</header>-->
+	                   	<!--<group name="Information" col="4">-->
+	                   	<!--</group>-->
+	               	<!--</page>-->
+                <!--</xpath>-->
+            <!--</field>-->
+        <!--</record>-->
+        <!--
+  		<record id="view_helpdesk_form" model="ir.ui.view">
+            <field name="name">Helpdesk - Add Field</field>
+            <field name="model">crm.helpdesk</field>
+            <field name="inherit_id" ref="crm_helpdesk.crm_case_form_view_helpdesk"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@string='General']" position="before">
+              		<page string="Information">
+	              		<header>
+	              			<button name="%(action_field_create)d" string="Add New Field" type="action" class="fbutton oe_highlight"/>
+	              			<button name="%(action_field_editor)d" string="Edit/Delete Fields" type="action" class="fbutton oe_highlight"/>
+	                     </header>
+	                   	<group name="Information" col="4">
+	                   	</group>
+	               	</page>
+                </xpath>
+            </field>
+        </record>
+        -->
+    </data>
+</odoo>

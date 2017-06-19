@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_field_editor,access_field_editor,model_field_editor,base.group_user,1,1,1,1
+access_field_editor_lines,access_field_editor_lines,model_field_editor_lines,base.group_user,1,1,1,1
