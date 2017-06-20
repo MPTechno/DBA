@@ -11,6 +11,7 @@
         'data/expense_item_data.xml',
 		'views/hr_expense_view.xml',
 		'views/expense_report_view.xml',
+		'views/invoice_report_view.xml',
     ],
     'description': '''Expense Customization''',
     'demo': [],
