@@ -14,7 +14,7 @@ class ir_ui_menu(models.Model):
             'stock.menu_stock_root',
             'account.menu_finance_configuration',
         ]
-        if self.env.uid != SUPERUSER_ID:
+        if self.env.uid != SUPERUSER_ID or 1 == 1:
             menu_ids = []
             for menu_item in menu_data:
                 menu = self.env.ref(menu_item)
