@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
-
         <template id="report.external_layout_expense_dba">
 			<!-- Multicompany -->
 			<t t-if="o and 'company_id' in o">
@@ -35,7 +34,6 @@
 				</div>
 			</div>
 		</template>
-        
         
     	<template id="hr_expense.report_expense_sheet">
 		    <t t-call="report.html_container">
@@ -126,22 +124,7 @@
 		                            </table>
 		                        </div>
 		                    </div>
-							
 							<!--Customize By Amit -->
-							<div class="row">
-						        <div class="col-xs-4 pull-right">
-						            <table class="table table-condensed" style="border:none;">
-						                <tr style="border:none;">
-						                    <td style="border:none;">
-						                    	<center>Received By <br/>
-						                    	(Date &amp; Signature)
-						                    	</center>
-						                    </td>
-						                </tr>
-						            </table>
-						        </div>
-					        </div>
-					        <br/><br/><br/>
 					        <div class="row">
 						        <div class="col-xs-4 pull-right">
 						            <table class="table table-condensed" style="border:none;">
@@ -163,59 +146,36 @@
 						            </table>
 						        </div>
 					        </div>
+					        <br/><br/>
+					        <div class="row">
+						        <div class="col-xs-8 pull-left">
+						            <table class="table table-condensed" style="border:none;">
+						                <tr style="border:none;">
+						                    <td style="border:none;">
+						                    	Certified honest and conform,<br/>(Date and signature)
+						                    </td>
+						                </tr>
+						            </table>
+						        </div>
+						        <div class="col-xs-4 pull-right">
+						            <table class="table table-condensed" style="border:none;">
+						                <tr style="border:none;">
+						                    <td style="border:none;">
+						                    	<center>Received By <br/>
+						                    	(Date &amp; Signature)
+						                    	</center>
+						                    </td>
+						                </tr>
+						            </table>
+						        </div>
+					        </div>
+					        
 					        <!--End Customize-->
-		                    <p>Certified honest and conform,<br/>(Date and signature).<br/><br/></p>
+		                    <!--p>Certified honest and conform,<br/>(Date and signature).<br/><br/></p-->
 		                </div>
 		            </t>
 		        </t>
 		    </t>
 		</template>
-        
-        
-        <!--record model="ir.ui.view" id="report_expense_sheet_dba">
-            <field name="name">report_expense_sheet</field>
-            <field name="type">qweb</field>
-            <field name="inherit_id" ref="hr_expense.report_expense_sheet"/>
-            <field name="arch" type="xml">
-                <xpath expr="//div[@class='page']/p" position="before">
-                    <div class="row">
-		                <div class="col-xs-4 pull-right">
-		                    <table class="table table-condensed" style="border:none;">
-		                        <tr style="border:none;">
-		                            <td style="border:none;">
-		                            	<center>Received By <br/>
-		                            	(Date &amp; Signature)
-		                            	</center>
-		                            </td>
-		                        </tr>
-		                    </table>
-		                </div>
-	                </div>
-	                <br/><br/><br/>
-	                <div class="row">
-		                <div class="col-xs-4 pull-right">
-		                    <table class="table table-condensed" style="border:none;">
-		                        <tr style="border:none;">
-		                        	<td style="border:none;">PC#:</td>
-		                            <td style="border:none;" class="text-right"><span t-esc="o.expense_line_ids[0].pc_no"/></td>
-		                        </tr>
-		                    </table>
-		                </div>
-	                </div>
-	                
-	                <div class="row">
-		                <div class="col-xs-4 pull-right">
-		                    <table class="table table-condensed" style="border:none;">
-		                        <tr style="border:none;">
-		                        	<td style="border:none;">Cheque No:</td>
-		                            <td style="border:none;" class="text-right"><span t-esc="o.expense_line_ids[0].cheque_no"/></td>
-		                        </tr>
-		                    </table>
-		                </div>
-	                </div>
-                </xpath>
-            </field>
-        </record-->
-
    </data>
 </openerp>
