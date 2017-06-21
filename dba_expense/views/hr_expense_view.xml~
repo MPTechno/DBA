@@ -10,7 +10,7 @@
         		<attribute name="string">Expense Item</attribute>
         	</field>
         	<field name="analytic_account_id" position="attributes">
-        		<attribute name="required">1</attribute>
+        		<attribute name="string">Project Code</attribute>
         	</field>
         	<field name="company_id" position="after">
         		<field name="paid_by"/> 
@@ -26,27 +26,16 @@
     </record>
     
     
-    <!--Medical Claim Limit Form View-->
-    <record model="ir.ui.view" id="medical_claim_limit_tree_dba">
-        <field name="name">medical.claim.limit.tree.dba</field>
-        <field name="model">medical.claim.limit</field>
+    <record id="product_product_expense_form_view_dba" model="ir.ui.view">
+        <field name="name">product.product.expense.form</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="hr_expense.product_product_expense_form_view"/>
         <field name="arch" type="xml">
-            <tree string="Expense type" name="expense_type" create='false' editable='true'>
-                <field name="medical_claim_limit"/>
-            </tree>
-        </field>
+        	<xpath expr='//form/sheet/group/group/field[@name="supplier_taxes_id"]' position='after'>
+        		<field name="expense_limit"/>
+        	</xpath>
+		</field>
     </record>
-    
-    <!--Medical Claim Limit action-->
-    <record id="action_medical_claim_limit" model="ir.actions.act_window">
-        <field name="name">Medical Claim Limit</field>
-        <field name="res_model">medical.claim.limit</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree</field>
-    </record>
-    <!--Medical Claim Limit menu-->
-    <menuitem id="menu_medical_claim_limit" name="Medical Claim Limit" 
-            parent="hr_expense.menu_hr_expense_configuration" action="action_medical_claim_limit" groups="base.user_root"/>
     
 </odoo>
 

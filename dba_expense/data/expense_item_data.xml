@@ -62,9 +62,5 @@
             <field name="type">service</field>
         </record>
         
-        <record id="medical_limit" model="medical.claim.limit">
-            <field name="medical_claim_limit">40</field>
-        </record>
-        
     </data>
 </odoo>

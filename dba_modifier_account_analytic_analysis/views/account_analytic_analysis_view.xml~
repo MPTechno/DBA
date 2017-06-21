@@ -14,7 +14,6 @@
         </field>
     </record>
     
-    
     <record id="account_analytic_account_form_dba" model="ir.ui.view">
         <field name="name">account.analytic.account.invoice.form.inherit.dba</field>
         <field name="model">account.analytic.account</field>
@@ -29,8 +28,6 @@
             </field>
         </field>
     </record>
-    
-    
     
     <!--Contract Category Form View-->
 	<record model="ir.ui.view" id="contract_category_tree_dba">
@@ -54,7 +51,6 @@
 	<menuitem id="menu_contract_category" name="Contract Category" 
 		parent="sales_team.menu_sale_config" action="action_contract_category"/>
 		
-	
 	<record id="analytic_account_inherited_issue_form_dba" model="ir.ui.view">
 	    <field name="name">account.analytic.account.issue.form.inherit.dba</field>
 	    <field name="model">account.analytic.account</field>

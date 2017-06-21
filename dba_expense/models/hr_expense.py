@@ -17,8 +17,8 @@ class hr_expense(models.Model):
         if self.product_id:
             if not self.name:
                 self.name = self.product_id.display_name or ''
-            if self.product_id.name == 'Medical':
-                self.unit_amount = self.env['medical.claim.limit'].search([])[0].medical_claim_limit
+            if self.product_id.expense_limit:
+                self.unit_amount = self.product_id.expense_limit
             else:
                 self.unit_amount = self.product_id.price_compute('standard_price')[self.product_id.id]
             self.product_uom_id = self.product_id.uom_id
@@ -30,8 +30,8 @@ class hr_expense(models.Model):
     @api.depends('quantity', 'unit_amount', 'tax_ids', 'currency_id','product_id')
     def _compute_amount(self):
         for expense in self:
-            if expense.product_id.name == 'Medical':
-                expense.total_amount = self.env['medical.claim.limit'].search([])[0].medical_claim_limit
+            if expense.product_id.expense_limit:
+                expense.total_amount = self.product_id.expense_limit
             else:
                 expense.untaxed_amount = expense.unit_amount * expense.quantity
                 taxes = expense.tax_ids.compute_all(expense.unit_amount, expense.currency_id, expense.quantity, expense.product_id, expense.employee_id.user_id.partner_id)
@@ -48,8 +48,13 @@ class hr_expense(models.Model):
             if month >= 3:
                 raise ValidationError(_('Expense Date is 3 months more than the Current Date !'))
 	
-class medical_claim_limit(models.Model):
+class product_product(models.Model):
+    _inherit = 'product.product'
+	
+    expense_limit = fields.Float('Expense Limit')
+
+'''class medical_claim_limit(models.Model):
     _name = 'medical.claim.limit'
     
-    medical_claim_limit = fields.Float('Medical Claim Limit',required=True)
+    medical_claim_limit = fields.Float('Medical Claim Limit',required=True)'''
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
