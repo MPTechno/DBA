@@ -106,11 +106,13 @@ setTimeout(function() {
             // it's important to use those vars to avoid race conditions
             var dates;
             var accounts;
-            var account_names;
+			var account_names;
+            var code7s;
+			var code7_names;
             var default_get;
             var self = this;
             return this.render_drop.add(new Model('account.analytic.line').call('default_get', [
-                ['account_id','general_account_id','journal_id','date','name','user_id','product_id','product_uom_id','amount','unit_amount','project_id'],
+                ['account_id','general_account_id','journal_id','date','name','user_id','product_id','code7_id','product_uom_id','amount','unit_amount','project_id'],
                 new data.CompoundContext({'user_id': self.get('user_id')})
             ]).then(function(result) {
                 default_get = result;
@@ -133,8 +135,18 @@ setTimeout(function() {
                         }
                     })
                     .groupBy('account_id').value();
+                //Added Kunal
+                code7s = _.chain(self.get("sheets"))
+				    .map(_.clone)
+				    .each(function(el){
+				    	 if (typeof(el.code7_id) === "object") {
+				             el.code7_id = el.code7_id[0];
+				         }
+				    })
+				    .groupBy("code7_id").value();
 
                 var account_ids = _.map(_.keys(accounts), function(el) { return el === 'false' ? false : Number(el); });
+                var code7_ids = _.map(_.keys(code7s), function(el) { return el === "false" ? false : Number(el); });  //Kunal
 
                 accounts = _(accounts).chain().map(function(lines, account_id) {
                     var accounts_defaults = _.extend({}, default_get, (accounts[account_id] || {}).value || {});
@@ -160,6 +172,30 @@ setTimeout(function() {
                     });
                     return {account_id: account_id, days: days, accounts_defaults: accounts_defaults};
                 }).value();
+                
+                code7s = _(code7s).chain().map(function(lines, code7_id) {  // kunal
+		            var code7s_defaults = _.extend({}, default_get, (code7s[code7_id] || {}).value || {});
+		            // group by days
+		            code7_id = (code7_id === "false")? false : Number(code7_id);
+		            var index = _.groupBy(lines, "date");
+		            var days = _.map(dates, function(date) {
+		                var day = {day: date, lines: index[time.date_to_str(date)] || []};
+		                // add line where we will insert/remove hours
+		                var to_add = _.find(day.lines, function(line) { return line.name === self.description_line; });
+		                if (to_add) {
+		                    day.lines = _.without(day.lines, to_add);
+		                    day.lines.unshift(to_add);
+		                } else {
+		                    day.lines.unshift(_.extend(_.clone(code7s_defaults), {
+		                        name: self.description_line,
+		                        date: time.date_to_str(date),
+		                        code7_id: code7_id,
+		                    }));
+		                }
+		                return day;
+		            });
+		            return {code7: code7_id, days: days, code7s_defaults: code7s_defaults};
+		        }).value(); 
 
                 // we need the name_get of the accounts
                 return new Model('account.analytic.account').call('name_get', [_.pluck(accounts, 'account_id'),
@@ -172,15 +208,28 @@ setTimeout(function() {
                         return account_names[el.account_id];
                     });
                 });
-            })).then(function(result) {
-                // we put all the gathered data in self, then we render
-                self.dates = dates;
-                self.accounts = accounts;
-                self.account_names = account_names;
-                self.default_get = default_get;
-                //real rendering
-                self.display_data();
-            });
+            })).done(function(result) {
+                new Model("code.seven").call("name_get", [_.pluck(code7s, "code7"),
+			        new data.CompoundContext()]).then(function(result) {
+			        code7_names = {};
+			        _.each(result, function(el) {
+			            code7_names[el[0]] = el[1];
+			        });
+			        code7s = _.sortBy(code7s, function(el) {
+			            return code7_names[el.code7];
+			        });
+			        return code7s
+			     }).done(function(result){
+		    		self.dates = dates;
+                    self.accounts = accounts;
+                    self.account_names = account_names;
+                    self.default_get = default_get;
+					self.code7s = code7s;
+					self.code7_names = code7_names
+		            //real rendering
+		            self.display_data();        		
+		    	});
+          	});     
         },
         destroy_content: function() {
             if (this.dfm) {
@@ -250,6 +299,9 @@ setTimeout(function() {
                 account_id: {
                     relation: 'account.analytic.account',
                 },
+                code7: {
+                	relation: "code.seven",
+                }
             });
             var FieldMany2One = core.form_widget_registry.get('many2one');
             this.account_m2o = new FieldMany2One(this.dfm, {
@@ -262,11 +314,23 @@ setTimeout(function() {
                     modifiers: '{"required": true}',
                 },
             });
+            this.code7_m2o = new FieldMany2One(this.dfm, {
+                attrs: {
+                    name: "code7",
+                    type: "many2one",
+                    domain: [ ],
+                    modifiers: '{"required": true}',
+                },
+            });
+            this.code7_m2o.prependTo(this.$(".o_add_timesheet_line > div")).then(function() {
+                self.code7_m2o.$el.addClass('oe_edit_only');
+            });
             this.account_m2o.prependTo(this.$(".o_add_timesheet_line > div")).then(function() {
                 self.account_m2o.$el.addClass('oe_edit_only');
             });
             this.$(".oe_timesheet_button_add").click(function() {
                 var id = self.account_m2o.get_value();
+                var pid = self.code7_m2o.get_value();
                 if (id === false) {
                     self.dfm.set({display_invalid_fields: true});
                     return;
@@ -278,6 +342,7 @@ setTimeout(function() {
                     unit_amount: 0,
                     date: time.date_to_str(self.dates[0]),
                     account_id: id,
+                    code7_id: pid,
                 }));
 
                 self.set({sheets: ops});

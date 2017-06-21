@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="account_analytic_line_form_code7" model="ir.ui.view">
+        <field name="name">account.analytic.line.code7.form</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="analytic.view_account_analytic_line_form"/>
+        <field name="arch" type="xml">
+            <xpath expr='//field[@name="date"]' position='after'>
+                <field name="code7_id"/>
+             </xpath>
+        </field>
+    </record>
+    
+    <!--Code7 Config Menu Tree-->
+    <record id="code7_tree_view" model="ir.ui.view">
+        <field name="name">code7.tree.view</field>
+        <field name="model">code.seven</field>            
+        <field name="arch" type="xml">
+            <tree> 
+                <field name="name"/>                          
+            </tree>
+        </field>
+    </record>
+    
+    <!--Code7 Action menu-->
+    <record id="code7_action" model="ir.actions.act_window">
+        <field name="name">Code7</field>
+        <field name="res_model">code.seven</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="code7_tree_view"/>
+    </record>
+    
+    <menuitem id="code7_setting_root" name="Configuration"
+              parent="hr_timesheet.timesheet_menu_root" /><!--Main Left Config Menu-->
+              
+    <menuitem id="settings_menu" name="Code7" 
+              action="code7_action" parent="code7_setting_root"/><!--Code7 Menu-->
+ </odoo>   
+

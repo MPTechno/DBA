@@ -15,7 +15,14 @@
                         <th class="oe_timesheet_weekly_date_head">Total</th>
                     </tr>
                     <tr t-foreach="widget.accounts" t-as="account">
-                        <td class="oe_timesheet_weekly_account" colspan="2"><a href="javascript:void(0)" t-att-data-id="JSON.stringify(account.account_id)"><t t-esc="widget.account_names[account.account_id]"/></a></td>
+                        <td class="oe_timesheet_weekly_account" colspan="2">
+                            <a href="javascript:void(0)" t-att-data-id="JSON.stringify(account.account_id)">
+                            <t t-esc="widget.account_names[account.account_id]"/></a>
+                            <t t-foreach="widget.code7s" t-as="code7">
+		                        <a href="javascript:void(0)" t-att-data-id="JSON.stringify(code7.code7)">
+		                        <t t-esc="widget.code7_names[code7.code7]"/></a>
+                            </t>
+                        </td>
                         <t t-set="day_count" t-value="0"/>
                         <t t-foreach="account.days" t-as="day">
                             <td t-att-class="moment().format('DD-MM-YYYY') === moment(day.day).format('DD-MM-YYYY') ? 'oe_timesheet_weekly_today' : ''">
