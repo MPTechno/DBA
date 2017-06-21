@@ -12,6 +12,44 @@ class hr_expense(models.Model):
     cheque_no = fields.Char('Cheque No')
     pc_no = fields.Char('PC#')
     
+    
+    @api.multi
+    def write(self, values):
+        if values.get('unit_amount'):
+            if values.get('unit_amount') > self.product_id.expense_limit:
+                raise UserError(_("You can't add more expense than %s !") % (self.product_id.expense_limit))
+        return super(hr_expense, self).write(values)
+    
+    @api.model
+    def create(self, vals):
+        product_obj = self.env['product.product'].browse(vals.get('product_id'))
+        if vals.get('unit_amount') > product_obj.expense_limit:
+            raise UserError(_("You can't add more expense than %s !") % (product_obj.expense_limit))
+        else:
+            hr_expense_obj = super(hr_expense, self).create(vals)
+            return hr_expense_obj
+    
+    
+    @api.multi
+    def submit_expenses(self):
+        if self.unit_amount < self.product_id.expense_limit:
+            raise UserError(_("You can't add more expense than %s !") % (self.product_id.expense_limit))
+        if any(expense.state != 'draft' for expense in self):
+            raise UserError(_("You cannot report twice the same line!"))
+        if len(self.mapped('employee_id')) != 1:
+            raise UserError(_("You cannot report expenses for different employees in the same report!"))
+        return {
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'res_model': 'hr.expense.sheet',
+            'target': 'current',
+            'context': {
+                'default_expense_line_ids': [line.id for line in self],
+                'default_employee_id': self[0].employee_id.id,
+                'default_name': self[0].name if len(self.ids) == 1 else ''
+            }
+        }
+    
     @api.onchange('product_id')
     def _onchange_product_id(self):
         if self.product_id:
