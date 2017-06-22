@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--Inherit Timesheet Form and set group on the "Submit to Manager" button-->
+    <record id="hr_timesheet_sheet_form_dba" model="ir.ui.view">
+        <field name="name">hr_timesheet_sheet.sheet.form.dba</field>
+        <field name="model">hr_timesheet_sheet.sheet</field>
+        <field name="inherit_id" ref="hr_timesheet_sheet.hr_timesheet_sheet_form"/>
+        <field name="arch" type="xml">
+            <button name="action_timesheet_confirm" position="attributes">
+        	    <attribute name="groups">dba_timesheet.dba_submit_to_manager</attribute>
+        	</button>
+        	<button name="action_timesheet_done" position="attributes">
+        	    <attribute name="string">Submit</attribute>
+        	    <attribute name="states">draft</attribute>
+        	</button>
+        	<button name="action_timesheet_draft" position="attributes">
+        	    <attribute name="invisible">1</attribute>
+        	</button>
+        </field>
+    </record>
+    
+ </odoo>   
+
