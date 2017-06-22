@@ -13,3 +13,4 @@ class AccountAnalyticLineExt(models.Model):
     _inherit = 'account.analytic.line'
     
     code7_id = fields.Many2one('code.seven',string="Code7",required=True)
+    non_code_activity = fields.Char(string='Non-Code Activity')
