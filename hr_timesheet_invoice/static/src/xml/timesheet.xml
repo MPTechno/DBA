@@ -18,10 +18,10 @@
                         <td class="oe_timesheet_weekly_account" colspan="2">
                             <a href="javascript:void(0)" t-att-data-id="JSON.stringify(account.account_id)">
                             <t t-esc="widget.account_names[account.account_id]"/></a>
-                            <t t-foreach="widget.code7s" t-as="code7">
-		                        <a href="javascript:void(0)" t-att-data-id="JSON.stringify(code7.code7)">
-		                        <t t-esc="widget.code7_names[code7.code7]"/></a>
-                            </t>
+	                        <a href="javascript:void(0)" t-att-data-id="JSON.stringify(account.code7_id)">
+	                        <t t-esc="widget.code7_names[account.code7_id]"/></a>
+	                        <a href="javascript:void(0)" t-att-data-id="JSON.stringify(account.non_code_activity)">
+                            <t t-esc="account.non_code_activity"/></a>
                         </td>
                         <t t-set="day_count" t-value="0"/>
                         <t t-foreach="account.days" t-as="day">

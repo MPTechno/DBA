@@ -109,10 +109,12 @@ setTimeout(function() {
 			var account_names;
             var code7s;
 			var code7_names;
+			var non_code_activitys;
+			var non_code_activity_names;
             var default_get;
             var self = this;
             return this.render_drop.add(new Model('account.analytic.line').call('default_get', [
-                ['account_id','general_account_id','journal_id','date','name','user_id','product_id','code7_id','product_uom_id','amount','unit_amount','project_id'],
+                ['account_id','general_account_id','journal_id','date','name','user_id','product_id','code7_id','non_code_activity','product_uom_id','amount','unit_amount','project_id'],
                 new data.CompoundContext({'user_id': self.get('user_id')})
             ]).then(function(result) {
                 default_get = result;
@@ -133,22 +135,17 @@ setTimeout(function() {
                         if (typeof(el.account_id) === "object") {
                             el.account_id = el.account_id[0];
                         }
+                        if (typeof(el.code7_id) === "object") {
+				             el.code7_id = el.code7_id[0];
+				        }
+				        if (typeof(el.non_code_activity) === "string") {
+				             el.non_code_activity = el.non_code_activity;
+			            }
                     })
                     .groupBy('account_id').value();
-                //Added Kunal
-                code7s = _.chain(self.get("sheets"))
-				    .map(_.clone)
-				    .each(function(el){
-				    	 if (typeof(el.code7_id) === "object") {
-				             el.code7_id = el.code7_id[0];
-				         }
-				    })
-				    .groupBy("code7_id").value();
-
                 var account_ids = _.map(_.keys(accounts), function(el) { return el === 'false' ? false : Number(el); });
-                var code7_ids = _.map(_.keys(code7s), function(el) { return el === "false" ? false : Number(el); });  //Kunal
-
-                accounts = _(accounts).chain().map(function(lines, account_id) {
+                
+                accounts = _(accounts).chain().map(function(lines,account_id) {
                     var accounts_defaults = _.extend({}, default_get, (accounts[account_id] || {}).value || {});
                     // group by days
                     account_id = (account_id === "false")? false : Number(account_id);
@@ -166,37 +163,17 @@ setTimeout(function() {
                                 unit_amount: 0,
                                 date: time.date_to_str(date),
                                 account_id: account_id,
+                                code7_id: lines[0].code7_id,
+                                non_code_activity: lines[0].non_code_activity
                             }));
                         }
                         return day;
                     });
-                    return {account_id: account_id, days: days, accounts_defaults: accounts_defaults};
+                    var code7_id = lines[0].code7_id;
+                    var non_code_activity = lines[0].non_code_activity;
+                    return {account_id: account_id, days: days, code7_id: code7_id, non_code_activity:non_code_activity, accounts_defaults: accounts_defaults};
                 }).value();
                 
-                code7s = _(code7s).chain().map(function(lines, code7_id) {  // kunal
-		            var code7s_defaults = _.extend({}, default_get, (code7s[code7_id] || {}).value || {});
-		            // group by days
-		            code7_id = (code7_id === "false")? false : Number(code7_id);
-		            var index = _.groupBy(lines, "date");
-		            var days = _.map(dates, function(date) {
-		                var day = {day: date, lines: index[time.date_to_str(date)] || []};
-		                // add line where we will insert/remove hours
-		                var to_add = _.find(day.lines, function(line) { return line.name === self.description_line; });
-		                if (to_add) {
-		                    day.lines = _.without(day.lines, to_add);
-		                    day.lines.unshift(to_add);
-		                } else {
-		                    day.lines.unshift(_.extend(_.clone(code7s_defaults), {
-		                        name: self.description_line,
-		                        date: time.date_to_str(date),
-		                        code7_id: code7_id,
-		                    }));
-		                }
-		                return day;
-		            });
-		            return {code7: code7_id, days: days, code7s_defaults: code7s_defaults};
-		        }).value(); 
-
                 // we need the name_get of the accounts
                 return new Model('account.analytic.account').call('name_get', [_.pluck(accounts, 'account_id'),
                     new data.CompoundContext()]).then(function(result) {
@@ -204,31 +181,26 @@ setTimeout(function() {
                     _.each(result, function(el) {
                         account_names[el[0]] = el[1];
                     });
-                    accounts = _.sortBy(accounts, function(el) {
-                        return account_names[el.account_id];
+                    return new Model("code.seven").call('name_get', [_(accounts).chain().pluck('code7_id').filter(function(el) {
+                        return el;
+                    }).value(), new data.CompoundContext()]).then(function(result) {
+                        code7_names = {};
+                        _.each(result, function(el) {
+			                code7_names[el[0]] = el[1];
+			            });
+                        accounts = _.sortBy(accounts, function(el) {
+                            return account_names[el.account_id];
+                        });
                     });
                 });
-            })).done(function(result) {
-                new Model("code.seven").call("name_get", [_.pluck(code7s, "code7"),
-			        new data.CompoundContext()]).then(function(result) {
-			        code7_names = {};
-			        _.each(result, function(el) {
-			            code7_names[el[0]] = el[1];
-			        });
-			        code7s = _.sortBy(code7s, function(el) {
-			            return code7_names[el.code7];
-			        });
-			        return code7s
-			     }).done(function(result){
+            })).then(function(result) {
 		    		self.dates = dates;
                     self.accounts = accounts;
                     self.account_names = account_names;
                     self.default_get = default_get;
-					self.code7s = code7s;
-					self.code7_names = code7_names
+					self.code7_names = code7_names;
 		            //real rendering
 		            self.display_data();        		
-		    	});
           	});     
         },
         destroy_content: function() {
@@ -291,7 +263,6 @@ setTimeout(function() {
             if (this.dfm) {
                 this.dfm.destroy();
             }
-
             var self = this;
             this.$(".oe_timesheet_weekly_add_row").show();
             this.dfm = new form_common.DefaultFieldManager(this);
@@ -301,9 +272,13 @@ setTimeout(function() {
                 },
                 code7: {
                 	relation: "code.seven",
-                }
+                },
+                non_code_activity: {
+                    relation: "account.analytic.line",
+                },
             });
             var FieldMany2One = core.form_widget_registry.get('many2one');
+            var FieldChar = core.form_widget_registry.get('char');
             this.account_m2o = new FieldMany2One(this.dfm, {
                 attrs: {
                     name: "account_id",
@@ -319,8 +294,19 @@ setTimeout(function() {
                     name: "code7",
                     type: "many2one",
                     domain: [ ],
-                    modifiers: '{"required": true}',
+                    modifiers: '{"required": false}',
                 },
+            });
+            this.non_code_activity = new FieldChar(this.dfm,{
+                attrs: {
+                    name:"non_code_activity",
+                    type:"char",
+                    domain: [ ],
+                    modifiers: '{"required": false}',
+                },
+            });
+            this.non_code_activity.prependTo(this.$(".o_add_timesheet_line > div")).then(function() {
+                self.non_code_activity.$el.addClass('oe_edit_only');
             });
             this.code7_m2o.prependTo(this.$(".o_add_timesheet_line > div")).then(function() {
                 self.code7_m2o.$el.addClass('oe_edit_only');
@@ -331,6 +317,7 @@ setTimeout(function() {
             this.$(".oe_timesheet_button_add").click(function() {
                 var id = self.account_m2o.get_value();
                 var pid = self.code7_m2o.get_value();
+                var codeid = self.non_code_activity.get_value();
                 if (id === false) {
                     self.dfm.set({display_invalid_fields: true});
                     return;
@@ -343,8 +330,8 @@ setTimeout(function() {
                     date: time.date_to_str(self.dates[0]),
                     account_id: id,
                     code7_id: pid,
+                    non_code_activity: codeid,
                 }));
-
                 self.set({sheets: ops});
                 self.destroy_content();
             });

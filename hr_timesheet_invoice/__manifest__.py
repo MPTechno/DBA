@@ -36,7 +36,7 @@ reports.""",
     'website': 'https://www.odoo.com/page/employees',
     'depends': ['account', 'hr_timesheet', 'report', 'hr_timesheet_sheet'],
     'data': [
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'hr_timesheet_invoice_data.xml',
         'hr_timesheet_invoice_view.xml',
         'hr_timesheet_invoice_wizard.xml',
