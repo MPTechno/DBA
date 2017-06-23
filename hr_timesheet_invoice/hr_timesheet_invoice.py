@@ -99,28 +99,6 @@ class account_analytic_line(models.Model):
     to_invoice = fields.Many2one('hr_timesheet_invoice.factor', 'Invoiceable',
                                  help="It allows to set the discount while making invoice, keep empty if the activities should not be invoiced.")
 
-    # def _default_journal(self, cr, uid, context=None):
-    #     proxy = self.pool.get('hr.employee')
-    #     record_ids = proxy.search(cr, uid, [('user_id', '=', uid)], context=context)
-    #     if record_ids:
-    #         employee = proxy.browse(cr, uid, record_ids[0], context=context)
-    #         return employee.journal_id and employee.journal_id.id or False
-    #     return False
-
-    # def _default_general_account(self, cr, uid, context=None):
-    #     proxy = self.pool.get('hr.employee')
-    #     record_ids = proxy.search(cr, uid, [('user_id', '=', uid)], context=context)
-    #     if record_ids:
-    #         employee = proxy.browse(cr, uid, record_ids[0], context=context)
-    #         if employee.product_id and employee.product_id.property_account_income:
-    #             return employee.product_id.property_account_income.id
-    #     return False
-    #
-    # _defaults = {
-    #     # 'journal_id' : _default_journal,
-    #     'general_account_id' : _default_general_account,
-    # }
-
     @api.multi
     def write(self, vals):
         self._check_inv(vals)

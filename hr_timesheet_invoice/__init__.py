@@ -25,5 +25,6 @@ import account_analytic_account
 import account_analytic_line
 import hr_timesheet_sheet
 import code7
+import models
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

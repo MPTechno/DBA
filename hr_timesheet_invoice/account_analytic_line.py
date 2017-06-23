@@ -3,25 +3,47 @@
 from odoo import fields, models, exceptions, api
 
 class AccountAnalyticLine(models.Model):
-    _inherit = "account.analytic.line"
+    _inherit = 'account.analytic.line'
 
-    journal_id = fields.Many2one('account.journal', 'Journal', compute='_compute_journal_id', store=True)
+    @api.model
+    def compute_default_product_id(self):
+        context      = self.env.context
+        employee_obj = self.env['hr.employee']
+        employee     = employee_obj.search([('user_id', '=', context.get('user_id') or self.env.uid)])
+        if employee and employee.id:
+            if employee.product_id:
+                return employee.product_id
+        return False
 
-    @api.depends('move_id', 'move_id.journal_id')
-    def _compute_journal_id(self):
-        for ts_line in self:
-            if ts_line.move_id and ts_line.move_id.journal_id:
-                ts_line.journal_id = ts_line.move_id.journal_id.id
+    @api.model
+    def compute_default_journal_id(self):
+        context = self.env.context
+        employee_obj = self.env['hr.employee']
+        employee = employee_obj.search([('user_id', '=', context.get('user_id') or self.env.uid)])
+        if employee and employee.id:
+            if employee.journal_id:
+                return employee.journal_id
+        return False
+
+    journal_id         = fields.Many2one('account.journal', 'Journal', default=compute_default_journal_id)
+    product_id         = fields.Many2one('product.product', 'Product', default=compute_default_product_id)
+    general_account_id = fields.Many2one('account.account', 'Financial Account', compute='compute_default_general_account_id', related=False, store=True, domain=[])
+
+    @api.depends('move_id')
+    def compute_default_general_account_id(self):
+        employee_obj = self.env['hr.employee']
+        employees = employee_obj.search([('user_id', '=', self.env.uid)], limit=1)
+
+        for record in self:
+            if record.move_id and record.move_id.account_id:
+                record.general_account_id = record.move_id.account_id
             else:
-                # Timesheet Journal
-                if ts_line.sheet_id and ts_line.sheet_id.id:
-                    timesheet_journal = self.env.ref('hr_timesheet_invoice.timesheet_journal')
-                    if timesheet_journal and timesheet_journal.id:
-                        ts_line.journal_id = timesheet_journal.id
+                if employees:
+                    employee = employees[0]
+                    if employee.product_id and employee.product_id.property_account_income_id:
+                        record.general_account_id = employee.product_id.property_account_income_id
                     else:
-                        ts_line.journal_id = False
-                else:
-                    ts_line.journal_id = False
+                        record.general_account_id = employee.product_id.categ_id.property_account_income_categ_id.id
 
     @api.depends('date', 'user_id', 'project_id', 'account_id', 'sheet_id_computed.date_to', 'sheet_id_computed.date_from', 'sheet_id_computed.employee_id')
     def _compute_sheet(self):
@@ -31,13 +53,15 @@ class AccountAnalyticLine(models.Model):
             # TODO: Disable project_id
             # if not ts_line.project_id:
             #     continue
-            if ts_line.product_id:
-                continue
-            sheets = self.env['hr_timesheet_sheet.sheet'].search(
-                [('date_to', '>=', ts_line.date), ('date_from', '<=', ts_line.date),
-                 ('employee_id.user_id.id', '=', ts_line.user_id.id),
-                 ('state', 'in', ['draft', 'new'])])
-            if sheets:
-                # [0] because only one sheet possible for an employee between 2 dates
-                ts_line.sheet_id_computed = sheets[0]
-                ts_line.sheet_id = sheets[0]
+            timeshet_journal = self.env.ref('hr_timesheet_invoice.timesheet_journal')
+            if timeshet_journal and timeshet_journal.id:
+                if ts_line.journal_id and ts_line.journal_id.id:
+                    if ts_line.journal_id.id == timeshet_journal.id:
+                        sheets = self.env['hr_timesheet_sheet.sheet'].search(
+                            [('date_to', '>=', ts_line.date), ('date_from', '<=', ts_line.date),
+                             ('employee_id.user_id.id', '=', ts_line.user_id.id),
+                             ('state', 'in', ['draft', 'new'])])
+                        if sheets:
+                            # [0] because only one sheet possible for an employee between 2 dates
+                            ts_line.sheet_id_computed = sheets[0]
+                            ts_line.sheet_id = sheets[0]

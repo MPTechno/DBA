@@ -49,6 +49,7 @@ reports.""",
         'wizard/hr_timesheet_invoice_create_final_view.xml',
         'views/report_analyticprofit.xml',
         'views/resources.xml',
+        'views/hr_employee_views.xml',
         'data/data.xml',
     ],
     'demo': [
