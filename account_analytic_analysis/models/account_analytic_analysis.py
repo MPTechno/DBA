@@ -144,10 +144,10 @@ class account_analytic_account(models.Model):
                 GROUP BY product_id, user_id, to_invoice, product_uom_id, line.name""", (record.id,))
 
             ca_to_invoice = 0.0
-            for product_id, price, user_id, factor_id, qty, uom in self.env.cr.fetchall():
+            for product_id, price, user_id, factor_id, qty, uom, line_name in self.env.cr.fetchall():
                 price = -price
                 if product_id:
-                    price = self.pool.get('account.analytic.line')._get_invoice_price(record, product_id, user_id, qty)
+                    price = self.env['account.analytic.line']._get_invoice_price(record, product_id, user_id, qty)
                 factor = self.env['hr_timesheet_invoice.factor'].browse(factor_id)
                 ca_to_invoice += price * qty * (100-factor.factor or 0.0) / 100.0
 

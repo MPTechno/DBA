@@ -96,8 +96,16 @@ class account_analytic_line(models.Model):
     _inherit = 'account.analytic.line'
 
     invoice_id = fields.Many2one('account.invoice', 'Invoice', ondelete="set null", copy=False)
-    to_invoice = fields.Many2one('hr_timesheet_invoice.factor', 'Invoiceable',
+    to_invoice = fields.Many2one('hr_timesheet_invoice.factor', 'Invoiceable', compute='compute_to_invoice', store=True,
                                  help="It allows to set the discount while making invoice, keep empty if the activities should not be invoiced.")
+
+    @api.depends('account_id', 'account_id.to_invoice')
+    def compute_to_invoice(self):
+        for record in self:
+            if record.account_id and record.account_id.to_invoice:
+                record.to_invoice = record.account_id.to_invoice
+            else:
+                record.to_invoice = False
 
     @api.multi
     def write(self, vals):
@@ -115,10 +123,9 @@ class account_analytic_line(models.Model):
 
     @api.model
     def _get_invoice_price(self, account, product_id, user_id, qty):
-        pro_price_obj = self.env['product.pricelist']
         if account.pricelist_id:
             # TODO: Fixed the list
-            price = account.pricelist_id.price_get(product_id, qty or 1.0, account.partner_id.id)[0]
+            price = account.pricelist_id.price_get(product_id, qty or 1.0, account.partner_id.id)[1]
         else:
             price = 0.0
         return price

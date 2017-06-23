@@ -187,8 +187,8 @@
                                     </td>
                                 </tr>
                             </table>
-                            <group name='invoice_on_timesheets'>
-                                <p name='invoice_on_timesheets_label' class="oe_grey oe_edit_only" colspan="2" attrs="{'invisible': [('invoice_on_timesheets','=',False)]}">
+                            <group name='invoice_on_timesheets' attrs="{'invisible': [('invoice_on_timesheets','=',False)]}">
+                                <p name='invoice_on_timesheets_label' class="oe_grey oe_edit_only" colspan="2">
                                     When reinvoicing costs, Odoo uses the
                                     pricelist of the contract which uses the price
                                     defined on the product related (e.g timesheet
@@ -202,7 +202,8 @@
                                     <field name="to_invoice"
                                         class="oe_inline"
                                         widget="selection"
-                                        attrs="{'required': [('invoice_on_timesheets', '=', True)], 'invisible': [('invoice_on_timesheets','=',False)]}"/>
+                                        attrs="{'required': [('invoice_on_timesheets', '=', True)]}"
+                                        />
                                 </group>
                             </group>
                             <separator string="Recurring Invoices" attrs="{'invisible': [('recurring_invoices','!=',True)]}"/>

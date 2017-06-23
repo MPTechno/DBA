@@ -4,7 +4,7 @@
 #    OpenERP, Open Source Management Solution
 #    Copyright (C) 2004-2010 Tiny SPRL (<http://tiny.be>).
 #
-#    This program is free software: you can redistribute it and/or modify
+#    This program  is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
 #    published by the Free Software Foundation, either version 3 of the
 #    License, or (at your option) any later version.
@@ -24,7 +24,7 @@ import time
 from odoo import fields, models, api, exceptions
 
 class account_analytic_account(models.Model):
-    _inherit = "account.analytic.account"
+    _inherit = 'account.analytic.account'
 
     type         = fields.Selection([
         ('view', 'Analytic View'),
