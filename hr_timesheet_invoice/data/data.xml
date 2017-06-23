@@ -14,5 +14,35 @@
             <!--<field name="default_debit_account_id">TIMESHEET</field>-->
             <!--<field name="default_credit_account_id">TIMESHEET</field>-->
         </record>
+        
+        <!--Code7 Demo values-->
+        <record id="code7_pro" model="code.seven">
+            <field name="name">Programming/Research</field>
+        </record>
+        
+        <record id="code7_space" model="code.seven">
+            <field name="name">Space Planning/Concept</field>
+        </record>
+        
+        <record id="code7_" model="code.seven">
+            <field name="name">Design Development</field>
+        </record>
+        
+        <record id="code7_working" model="code.seven">
+            <field name="name">Working Drawings and Specs</field>
+        </record>
+        
+        <record id="code7_procure" model="code.seven">
+            <field name="name">Procurement</field>
+        </record>
+        
+        <record id="code7_implement" model="code.seven">
+            <field name="name">Implementation Review</field>
+        </record>
+        
+        <record id="code7_project" model="code.seven">
+            <field name="name">Project Finalisation</field>
+        </record>
+        
     </data>
 </odoo>
