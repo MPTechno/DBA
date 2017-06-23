@@ -9,6 +9,7 @@
     "data": [
         'security/security.xml',
 		'views/timesheet_view.xml',
+		'data/cron.xml',
     ],
     'description': '''Timesheet Customization''',
     'demo': [],
