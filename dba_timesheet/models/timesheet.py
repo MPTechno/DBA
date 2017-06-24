@@ -55,7 +55,7 @@ class TimeSheetExt(models.Model):
             not_submit_ts_users = user_obj.search([('id','not in',timesheet_users)])
             
             for user in not_submit_ts_users:
-                related_employee = self.env['hr.employee'].search([('user_id','='user.id)])
+                related_employee = self.env['hr.employee'].search([('user_id','=',user.id)])
                 if len(related_employee):
                     employee = related_employee[0]
                     mail_values = {
