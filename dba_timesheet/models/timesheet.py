@@ -31,10 +31,10 @@ class TimeSheetExt(models.Model):
                     'recipient_ids':user.partner_id,
                     'reply_to':admin.partner_id.email,
                     'body_html':'''
-                        <h1>Dear User</h1><br/>
-                        <h3>Kindly submit your timesheet today.</h3><br/>
+                        <h1>Dear %s</h1><br/>
+                        <h3>Kindly submit your timesheet by today.</h3><br/>
                         <h4>Thanks</h4>
-                    ''',
+                    '''%(user.name),
                 
                 }
                 mail_sent = self.env['mail.mail'].create(mail_values).send()
@@ -58,20 +58,21 @@ class TimeSheetExt(models.Model):
                 related_employee = self.env['hr.employee'].search([('user_id','=',user.id)])
                 if len(related_employee):
                     employee = related_employee[0]
+                    man_email = employee.parent_id and employee.parent_id.user_id and employee.parent_id.user_id.partner_id.email 
                     mail_values = {
                     
-                        'subject':'You did not submited the Timesheet',
+                        'subject':'%s did not submit timesheet'%(user.name),
                         'author_id':self._uid,
                         'email_from':admin.partner_id.email or '',
                         'email_to':user.partner_id.email,
-                        'email_cc':employee.parent_id and employee.parent_id.user_id and employee.parent_id.user_id.partner_id.email or '',
+                        'email_cc':man_email,
                         'recipient_ids':user.partner_id,
                         'reply_to':admin.partner_id.email,
                         'body_html':'''
-                            <h1>Dear User</h1><br/>
+                            <h1>Dear %s</h1><br/>
                             <h3>You did not submited timesheet last week.</h3><br/>
                             <h4>Thanks</h4>
-                        ''',
+                        '''%(user.name),
                     
                     }
                     mail_sent = self.env['mail.mail'].create(mail_values).send()
