@@ -22,6 +22,9 @@
         	<button name="submit_expenses" position="attributes">
         	    <attribute name="groups">account.group_account_user,account.group_account_manager</attribute>
         	</button>
+        	<xpath expr='//form/header/button[@name="submit_expenses"]' position='after'>
+        		<button name="submit_to_account" string="Submit to Account" type="object" class="oe_highlight o_expense_submit"/>
+        	</xpath>
 		</field>
     </record>
     

@@ -75,6 +75,41 @@ class hr_expense(models.Model):
                 taxes = expense.tax_ids.compute_all(expense.unit_amount, expense.currency_id, expense.quantity, expense.product_id, expense.employee_id.user_id.partner_id)
                 expense.total_amount = taxes.get('total_included')
     
+    
+    @api.multi
+    def get_accountant(self):
+        res_groups = self.env['res.groups']
+        group_id = res_groups.search([('name','=','Accountant')])
+        partners = []
+        if group_id:
+            for partner in group_id.users:
+                partners.append(partner.partner_id.id)
+        return partners[0]
+    
+    
+    @api.multi
+    def submit_to_account(self):
+        ir_model_data = self.env['ir.model.data']
+        res_groups = self.env['res.groups']
+        group_id = res_groups.search([('name','=','Accountant')])
+        email_to = ''
+        if group_id:
+            for partner in group_id.users:
+                email_to = email_to + partner.partner_id.email +','
+        
+        self.ensure_one()
+        template_id = ir_model_data.get_object_reference('dba_expense', 'expense_claim_email_template')[1]
+        if template_id:
+            self.env['mail.template'].browse(template_id).send_mail(self.id)
+        mail_mail_ids = self.env['mail.mail'].search([('state','=','outgoing')])
+        if mail_mail_ids:
+            for mail_mail_id in mail_mail_ids:
+                print "\n\n===========mail_mail_id===",mail_mail_id
+                mail_mail_id.write({'email_to':email_to})
+                mail_mail_id.send()
+        return True
+    
+    
     @api.one
     @api.constrains('date')
     def _check_date(self):
