@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_group_sub_admin_contract,access_contracts,analytic.model_account_analytic_account,dba_ar_modify.group_sub_admin_dba,1,1,1,1
+access_group_sub_admin_invoice,access_invoice,account.model_account_invoice,dba_ar_modify.group_sub_admin_dba,1,1,1,1
+access_group_sub_admin_ts,access_ts,hr_timesheet_sheet.model_hr_timesheet_sheet_sheet,dba_ar_modify.group_sub_admin_dba,1,1,1,1
+access_group_sub_admin_ex,access_ex,hr_expense.model_hr_expense,dba_ar_modify.group_sub_admin_dba,1,1,1,1
+access_group_sub_admin_exs,access_exs,hr_expense.model_hr_expense_sheet,dba_ar_modify.group_sub_admin_dba,1,0,0,0
+

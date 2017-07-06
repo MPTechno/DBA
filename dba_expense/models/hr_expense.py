@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# Part of GYB IT Solutions.
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, RedirectWarning, ValidationError
@@ -38,6 +37,24 @@ class hr_expense(models.Model):
             raise UserError(_("You cannot report twice the same line!"))
         if len(self.mapped('employee_id')) != 1:
             raise UserError(_("You cannot report expenses for different employees in the same report!"))
+        ir_model_data = self.env['ir.model.data']
+        res_groups = self.env['res.groups']
+        self._cr.execute('select id from ir_module_category where name=%s',('DBA AR Modify',))
+        category_id = self._cr.fetchone()
+        group_id = res_groups.search([('name','=','Manager'),('category_id','=',category_id[0])])
+        email_to = ''
+        if group_id:
+            for user in group_id.users:
+                email_to = email_to + user.partner_id.email +','
+        self.ensure_one()
+        template_id = ir_model_data.get_object_reference('dba_expense', 'expense_claim_email_template')[1]
+        if template_id:
+            self.env['mail.template'].browse(template_id).send_mail(self.id)
+        mail_mail_ids = self.env['mail.mail'].search([('state','=','outgoing')])
+        if mail_mail_ids:
+            for mail_mail_id in mail_mail_ids:
+                mail_mail_id.write({'email_to':email_to})
+                mail_mail_id.send()
         return {
             'type': 'ir.actions.act_window',
             'view_mode': 'form',
@@ -91,11 +108,13 @@ class hr_expense(models.Model):
     def submit_to_account(self):
         ir_model_data = self.env['ir.model.data']
         res_groups = self.env['res.groups']
-        group_id = res_groups.search([('name','=','Accountant')])
+        self._cr.execute('select id from ir_module_category where name=%s',('DBA AR Modify',))
+        category_id = self._cr.fetchone()
+        group_id = res_groups.search([('name','=','Accountant'),('category_id','=',category_id[0])])
         email_to = ''
         if group_id:
-            for partner in group_id.users:
-                email_to = email_to + partner.partner_id.email +','
+            for user in group_id.users:
+                email_to = email_to + user.partner_id.email +','
         
         self.ensure_one()
         template_id = ir_model_data.get_object_reference('dba_expense', 'expense_claim_email_template')[1]
@@ -108,9 +127,6 @@ class hr_expense(models.Model):
                 mail_mail_id.send()
         return True
     
-    
-    @api.one
-    @api.constrains('date')
     def _check_date(self):
         if self.date:
             today_date = datetime.now().date()
@@ -119,7 +135,20 @@ class hr_expense(models.Model):
             month = (current_date.year - expense_date.year) * 12 + current_date.month - expense_date.month
             if month >= 3:
                 raise ValidationError(_('Expense Date is 3 months more than the Current Date !'))
-	
+    @api.multi
+    def get_access_action(self):
+        self.ensure_one()
+        res = super(hr_expense, self).get_access_action()
+        self._cr.execute('select value from ir_config_parameter where key=%s',('web.base.url',))
+        url = str(self._cr.fetchone()[0])
+        if url:
+            url+= '/web#id=%s&view_type=%s&model=%s&action=%s'%(
+                                                             res.get('res_id'),
+                                                             res.get('view_type'),
+                                                             res.get('res_model'),
+                                                             res['context']['params']['action'])
+            return {'url':url}
+        return res
 class product_product(models.Model):
     _inherit = 'product.product'
 	

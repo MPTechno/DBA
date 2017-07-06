@@ -104,7 +104,6 @@ class hr_expense(models.Model):
         mail_mail_ids = self.env['mail.mail'].search([('state','=','outgoing')])
         if mail_mail_ids:
             for mail_mail_id in mail_mail_ids:
-                print "\n\n===========mail_mail_id===",mail_mail_id
                 mail_mail_id.write({'email_to':email_to})
                 mail_mail_id.send()
         return True
