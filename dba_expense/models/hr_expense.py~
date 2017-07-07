@@ -45,8 +45,10 @@ class hr_expense(models.Model):
         group_id = res_groups.search([('name','=','Manager'),('category_id','=',category_id[0])])
         email_to = ''
         if group_id:
-            for user in group_id.users:
+            for user in group_id[0].users:
                 email_to = email_to + user.partner_id.email +','
+        if '@' and '.' not in email_to:
+            raise ValidationError(_('Please provide valid email for the Manager !'))
         self.ensure_one()
         template_id = ir_model_data.get_object_reference('dba_expense', 'expense_claim_email_template')[1]
         if template_id:
@@ -112,9 +114,10 @@ class hr_expense(models.Model):
         group_id = res_groups.search([('name','=','Accountant'),('category_id','=',category_id[0])])
         email_to = ''
         if group_id:
-            for user in group_id.users:
+            for user in group_id[0].users:
                 email_to = email_to + user.partner_id.email +','
-        
+        if '@' and '.' not in email_to:
+            raise ValidationError(_('Please provide valid email for the Accountant !'))
         self.ensure_one()
         template_id = ir_model_data.get_object_reference('dba_expense', 'expense_claim_email_template')[1]
         if template_id:

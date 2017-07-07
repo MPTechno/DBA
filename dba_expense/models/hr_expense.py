@@ -46,7 +46,8 @@ class hr_expense(models.Model):
         email_to = ''
         if group_id:
             for user in group_id[0].users:
-                email_to = email_to + user.partner_id.email +','
+                if user.partner_id.email:
+                    email_to = email_to + str(user.partner_id.email) +','
         if '@' and '.' not in email_to:
             raise ValidationError(_('Please provide valid email for the Manager !'))
         self.ensure_one()
@@ -115,7 +116,8 @@ class hr_expense(models.Model):
         email_to = ''
         if group_id:
             for user in group_id[0].users:
-                email_to = email_to + user.partner_id.email +','
+                if user.partner_id.email:
+                    email_to = email_to + str(user.partner_id.email) +','
         if '@' and '.' not in email_to:
             raise ValidationError(_('Please provide valid email for the Accountant !'))
         self.ensure_one()
