@@ -45,7 +45,7 @@ Adds menu to show relevant information to each manager.You can also view the rep
         'views/account_analytic_analysis_cron.xml',
         'views/res_config_view.xml',
         'views/account_analytic_analysis.xml',
-        'data/reference_sequence.xml',
+        'data/fererence_sequence.xml',
     ],
     # 'demo': ['data/analytic_account_demo.xml'],
     # 'test': ['test/account_analytic_analysis.yml'],

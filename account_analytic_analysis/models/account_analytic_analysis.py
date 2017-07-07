@@ -509,6 +509,11 @@ class account_analytic_account(models.Model):
     use_timesheets = fields.Boolean('Timesheets', help="Check this field if this project manages timesheets")
     date_end = fields.Datetime('Expiration Date')
     manager_id = fields.Many2one('res.users', string='Account Manager')
+    
+    @api.multi
+    def get_sequence(self):
+        return self.env['ir.sequence'].next_by_code('account.analytic.account')
+    code = fields.Char(string="Reference",default=get_sequence)
 
     _defaults = {
         'recurring_interval': 1,
@@ -519,7 +524,6 @@ class account_analytic_account(models.Model):
     _sql_constraints = [
         ('code', 'unique(code)', 'Code will be unique for each project code.'),
     ]
-
     @api.model
     def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
         result = super(account_analytic_account, self).fields_view_get(view_id=view_id, view_type=view_type,
