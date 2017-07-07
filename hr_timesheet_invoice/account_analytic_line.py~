@@ -22,6 +22,7 @@ class AccountAnalyticLine(models.Model):
         context = self.env.context
         employee_obj = self.env['hr.employee']
         employees = employee_obj.search([('user_id', '=', context.get('user_id') or self.env.uid)])
+        print "\n\n=====employees=",employees
         if employees:
             for employee in employees:
                 if employee.journal_id:

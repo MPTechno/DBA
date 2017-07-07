@@ -10,6 +10,7 @@ class hr_expense(models.Model):
     paid_by = fields.Selection([('Cash','Cash'),('Cheque','Cheque')],'Paid By', default='Cash')
     cheque_no = fields.Char('Cheque No')
     pc_no = fields.Char('PC#')
+    manager_id = fields.Many2one('hr.employee','Manager')
     
     
     @api.multi
@@ -85,12 +86,10 @@ class hr_expense(models.Model):
     @api.depends('quantity', 'unit_amount', 'tax_ids', 'currency_id','product_id')
     def _compute_amount(self):
         for expense in self:
-            if expense.product_id.expense_limit:
-                expense.total_amount = self.product_id.expense_limit
-            else:
-                expense.untaxed_amount = expense.unit_amount * expense.quantity
-                taxes = expense.tax_ids.compute_all(expense.unit_amount, expense.currency_id, expense.quantity, expense.product_id, expense.employee_id.user_id.partner_id)
-                expense.total_amount = taxes.get('total_included')
+            expense.total_amount = self.unit_amount * expense.quantity
+            expense.untaxed_amount = expense.unit_amount * expense.quantity
+            taxes = expense.tax_ids.compute_all(expense.unit_amount, expense.currency_id, expense.quantity, expense.product_id, expense.employee_id.user_id.partner_id)
+            expense.total_amount = taxes.get('total_included')
     
     
     @api.multi

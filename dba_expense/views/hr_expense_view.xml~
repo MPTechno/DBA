@@ -13,14 +13,15 @@
         		<attribute name="string">Project Code</attribute>
         	</field>
         	<field name="company_id" position="after">
-        		<field name="paid_by"/> 
-        		<field name="cheque_no" attrs="{'invisible': [('paid_by', '=','Cash')]}"/> 
+        		<field name="manager_id" groups="dba_ar_modify.group_accountant_dba"/>
+        		<field name="paid_by" groups="dba_ar_modify.group_accountant_dba"/> 
+        		<field name="cheque_no" attrs="{'invisible': [('paid_by', '=','Cash')]}" groups="dba_ar_modify.group_accountant_dba"/> 
         	</field>
         	<field name="tax_ids" position="after">
-        		<field name="pc_no"/> 
+        		<field name="pc_no" groups="dba_ar_modify.group_accountant_dba"/> 
         	</field>
         	<button name="submit_expenses" position="attributes">
-        	    <attribute name="groups">account.group_account_user,account.group_account_manager</attribute>
+        	    <attribute name="groups">dba_ar_modify.group_accountant_dba</attribute>
         	</button>
         	<xpath expr='//form/header/button[@name="submit_expenses"]' position='after'>
         		<button name="submit_to_account" string="Submit to Account" type="object" class="oe_highlight o_expense_submit"/>
