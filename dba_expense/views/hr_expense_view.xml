@@ -17,6 +17,10 @@
         		<field name="paid_by" groups="dba_ar_modify.group_accountant_dba"/> 
         		<field name="cheque_no" attrs="{'invisible': [('paid_by', '=','Cash')]}" groups="dba_ar_modify.group_accountant_dba"/> 
         	</field>
+        	<field name="tax_ids" position="attributes">
+        	    <attribute name="groups"></attribute>
+        	</field>
+        
         	<field name="tax_ids" position="after">
         		<field name="pc_no" groups="dba_ar_modify.group_accountant_dba"/> 
         	</field>
