@@ -13,6 +13,7 @@ class ir_ui_menu(models.Model):
             'account.menu_finance_reports',
             'stock.menu_stock_root',
             'account.menu_finance_configuration',
+            'sale.menu_sale_order',
         ]
         if self.env.uid != SUPERUSER_ID or 1 == 1:
             menu_ids = []
