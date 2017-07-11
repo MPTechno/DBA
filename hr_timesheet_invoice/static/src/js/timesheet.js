@@ -293,6 +293,7 @@ setTimeout(function() {
                 attrs: {
                     name: "code7",
                     type: "many2one",
+                    placeholder: "Code7",
                     domain: [ ],
                     modifiers: '{"required": false}',
                 },
@@ -301,6 +302,7 @@ setTimeout(function() {
                 attrs: {
                     name:"non_code_activity",
                     type:"char",
+                    placeholder: "Non Code Activity",
                     domain: [ ],
                     modifiers: '{"required": false}',
                 },
