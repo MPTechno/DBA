@@ -18,6 +18,44 @@
         	</button>
         </field>
     </record>
+    <!--Timesheet Notification Configuration Form-->
+    <record id="timesheet_notification_config_form_view" model="ir.ui.view">
+        <field name="name">timesheet.notification.config.form.view</field>
+        <field name="model">timesheet.notification.config</field>            
+        <field name="arch" type="xml">
+            <form create="0" delete="0">
+                <group>
+                <field name="reminder_day" placeholder="Friday" class="oe_inline"/>
+                <field name="reminder_message"/>
+                <field name="notify_day" placeholder="Monday" class="oe_inline"/>
+                <field name="notify_message"/>
+                </group>
+            </form>
+        </field>
+    </record>
+    <!--Timesheet Notification Configuration Tree-->
+    <record id="timesheet_notification_config_tree_view" model="ir.ui.view">
+        <field name="name">timesheet.notification.config.tree.view</field>
+        <field name="model">timesheet.notification.config</field>            
+        <field name="arch" type="xml">
+            <tree>
+                <field name="reminder_day" placeholder="Friday" class="oe_inline"/>
+                <field name="notify_day" placeholder="Monday" class="oe_inline"/>
+            </tree>
+        </field>
+    </record>
     
+    <!--Timesheet Notification Configuration Action-->
+    <record id="timesheet_notification_config_action" model="ir.actions.act_window">
+        <field name="name">Notification</field>
+        <field name="res_model">timesheet.notification.config</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    
+    <menuitem id="timesheet_notification_config_menu" name="Notification"
+              parent="hr_timesheet_invoice.code7_setting_root"
+              action="timesheet_notification_config_action" /><!--Left Notification Menu-->
+              
  </odoo>   
 

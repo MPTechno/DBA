@@ -5,7 +5,7 @@
     "version": "1.0",
     "website": "www.hashmicro.com",
     "category": "timesheet",
-    "depends": ['hr_timesheet_sheet'],
+    "depends": ['hr_timesheet_sheet','hr_timesheet_invoice'],
     "data": [
         'security/security.xml',
 		'views/timesheet_view.xml',
