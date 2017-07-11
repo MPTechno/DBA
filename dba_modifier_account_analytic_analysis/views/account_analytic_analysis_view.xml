@@ -25,6 +25,9 @@
             <field name="manager_id" position="before">
             	<field name="contract_category_id"/>
             </field>
+            <label for="name" position="replace">
+                <label for="name" string="Project Code"/>
+            </label>
         </field>
     </record>
     
