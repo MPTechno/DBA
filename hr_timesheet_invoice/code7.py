@@ -9,8 +9,19 @@ class CodeSeven(models.Model):
     
     name = fields.Char(string='Code7')
     
+    @api.multi
+    def name_get(self):
+        result = []
+        count = 1
+        for rec in self:
+            name = str(count) + '-' + rec.name 
+            result.append((rec.id, name))
+            count+= 1
+        return result
+    
 class AccountAnalyticLineExt(models.Model):
     _inherit = 'account.analytic.line'
     
     code7_id = fields.Many2one('code.seven',string="Code7",required=True)
     non_code_activity = fields.Char(string='Non-Code Activity')
+    
