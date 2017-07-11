@@ -510,11 +510,12 @@ class account_analytic_account(models.Model):
     date_end = fields.Datetime('Expiration Date')
     manager_id = fields.Many2one('res.users', string='Account Manager')
     
-    @api.multi
-    def get_sequence(self):
-        return self.env['ir.sequence'].next_by_code('account.analytic.account')
-    code = fields.Char(string="Reference",default=get_sequence)
-
+    code = fields.Char(string="Reference",readonly=True)
+    @api.model
+    def create(self,vals):
+        code = self.env['ir.sequence'].next_by_code('account.analytic.account')
+        vals.update({'code':code})
+        return super(account_analytic_account,self).create(vals)
     _defaults = {
         'recurring_interval': 1,
         'recurring_next_date': lambda *a: time.strftime('%Y-%m-%d'),
