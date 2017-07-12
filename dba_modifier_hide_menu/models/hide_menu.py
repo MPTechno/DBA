@@ -14,6 +14,7 @@ class ir_ui_menu(models.Model):
             'stock.menu_stock_root',
             'account.menu_finance_configuration',
             'sale.menu_sale_order',
+            'crm.menu_crm_leads',
         ]
         if self.env.uid != SUPERUSER_ID or 1 == 1:
             menu_ids = []
