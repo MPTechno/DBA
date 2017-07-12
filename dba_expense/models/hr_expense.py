@@ -16,14 +16,14 @@ class hr_expense(models.Model):
     @api.multi
     def write(self, values):
         if values.get('unit_amount'):
-            if values.get('unit_amount') > self.product_id.expense_limit:
+            if self.product_id.expense_limit != 0.0 and values.get('unit_amount') > self.product_id.expense_limit:
                 raise UserError(_("You can't add more expense than %s !") % (self.product_id.expense_limit))
         return super(hr_expense, self).write(values)
     
     @api.model
     def create(self, vals):
         product_obj = self.env['product.product'].browse(vals.get('product_id'))
-        if vals.get('unit_amount') > product_obj.expense_limit:
+        if product_obj.expense_limit != 0.0 and vals.get('unit_amount') > product_obj.expense_limit:
             raise UserError(_("You can't add more expense than %s !") % (product_obj.expense_limit))
         else:
             hr_expense_obj = super(hr_expense, self).create(vals)
@@ -32,7 +32,7 @@ class hr_expense(models.Model):
     
     @api.multi
     def submit_expenses(self):
-        if self.unit_amount < self.product_id.expense_limit:
+        if self.product_id.expense_limit != 0.0 and self.unit_amount > self.product_id.expense_limit:
             raise UserError(_("You can't add more expense than %s !") % (self.product_id.expense_limit))
         if any(expense.state != 'draft' for expense in self):
             raise UserError(_("You cannot report twice the same line!"))
