@@ -38,16 +38,13 @@ class hr_expense(models.Model):
             raise UserError(_("You cannot report twice the same line!"))
         if len(self.mapped('employee_id')) != 1:
             raise UserError(_("You cannot report expenses for different employees in the same report!"))
+        if not self.manager_id:
+            raise ValidationError(_('Please Selet the Manager to Approve !'))
         ir_model_data = self.env['ir.model.data']
-        res_groups = self.env['res.groups']
-        self._cr.execute('select id from ir_module_category where name=%s',('DBA AR Modify',))
-        category_id = self._cr.fetchone()
-        group_id = res_groups.search([('name','=','Manager'),('category_id','=',category_id[0])])
         email_to = ''
-        if group_id:
-            for user in group_id[0].users:
-                if user.partner_id.email:
-                    email_to = email_to + str(user.partner_id.email) +','
+        if self.manager_id:
+            if self.manager_id.user_id:
+                email_to = str(self.manager_id.user_id.partner_id.email)
         if '@' and '.' not in email_to:
             raise ValidationError(_('Please provide valid email for the Manager !'))
         self.ensure_one()
