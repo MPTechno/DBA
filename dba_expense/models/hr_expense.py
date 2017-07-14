@@ -10,7 +10,7 @@ class hr_expense(models.Model):
     paid_by = fields.Selection([('Cash','Cash'),('Cheque','Cheque')],'Paid By', default='Cash')
     cheque_no = fields.Char('Cheque No')
     pc_no = fields.Char('PC#')
-    manager_id = fields.Many2one('hr.employee','Manager')
+    manager_id = fields.Many2one('hr.employee','Approver')
     
     
     @api.multi
