@@ -5,7 +5,7 @@
         <field name="interval_number">5</field>
         <field name="interval_type">minutes</field>
         <field name="numbercall">-1</field>
-        <field name="doall" eval="False"/>
+        <field name="doall" eval="True"/>
         <field name="model" eval="'hr_timesheet_sheet.sheet'"/>
         <field name="function" eval="'cron_remind_timesheet_submission'"/>
         <field name="args" eval="'()'" />
