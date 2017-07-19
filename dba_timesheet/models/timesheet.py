@@ -68,13 +68,15 @@ class TimesheetNotificationConfig(models.Model):
     def _get_reminder_msg(self):
         msg = '''Dear %s,<br/>'''
         msg += '''You forgot to submit your timesheet this week <br/>'''
-        msg += '''Regards,'''
+        msg += '''Regards,<br/>'''
+        msg += '''%s'''
         return msg
     def _get_notify_msg(self):
         msg = '''Dear %s,<br/>'''
         msg += '''This is second notify<br/>'''
         msg += '''you forgot to submit your timesheet last week<br/>'''
-        msg += '''Regards,'''
+        msg += '''Regards,<br/>'''
+        msg += '''%s'''
         return msg
     
     reminder_day = fields.Char(string="Reminder Day",required=True)
