@@ -14,6 +14,7 @@
         	</field>
         	<field name="company_id" position="after">
         		<field name="manager_id" groups="dba_ar_modify.group_accountant_dba"/>
+        		<field name="submit_to_accountant"/>
         		<field name="paid_by" groups="dba_ar_modify.group_accountant_dba"/> 
         		<field name="cheque_no" attrs="{'invisible': [('paid_by', '=','Cash')]}" groups="dba_ar_modify.group_accountant_dba"/> 
         	</field>
@@ -29,7 +30,9 @@
         	    <attribute name="string">Submit To Approver</attribute>
         	</button>
         	<xpath expr='//form/header/button[@name="submit_expenses"]' position='after'>
-        		<button name="submit_to_account" string="Submit to Account" type="object" class="oe_highlight o_expense_submit"/>
+        		<button name="submit_to_account" string="Submit to Account" 
+        		type="object" class="oe_highlight o_expense_submit"
+        		attrs="{'invisible':[('submit_to_accountant','=',True)]}"/>
         	</xpath>
 		</field>
     </record>

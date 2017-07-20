@@ -11,6 +11,7 @@ class hr_expense(models.Model):
     cheque_no = fields.Char('Cheque No')
     pc_no = fields.Char('PC#')
     manager_id = fields.Many2one('hr.employee','Approver')
+    submit_to_accountant = fields.Boolean('Submitted to Accountant',readonly=True)
     
     
     @api.multi
@@ -49,14 +50,14 @@ class hr_expense(models.Model):
         if len(self.mapped('employee_id')) != 1:
             raise UserError(_("You cannot report expenses for different employees in the same report!"))
         if not self.manager_id:
-            raise ValidationError(_('Please Selet the Manager to Approve !'))
+            raise ValidationError(_('Please Selet the Approver to Approve !'))
         ir_model_data = self.env['ir.model.data']
         email_to = ''
         if self.manager_id:
             if self.manager_id.user_id:
                 email_to = str(self.manager_id.user_id.partner_id.email)
         if '@' and '.' not in email_to:
-            raise ValidationError(_('Please provide valid email for the Manager !'))
+            raise ValidationError(_('Please provide valid email for the Approver !'))
         self.ensure_one()
         template_id = ir_model_data.get_object_reference('dba_expense', 'expense_claim_email_template')[1]
         if template_id:
@@ -136,6 +137,7 @@ class hr_expense(models.Model):
             for mail_mail_id in mail_mail_ids:
                 mail_mail_id.write({'email_to':email_to})
                 mail_mail_id.send()
+            self.submit_to_accountant = True
         return True
 
     @api.multi
