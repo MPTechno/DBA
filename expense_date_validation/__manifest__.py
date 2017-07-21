@@ -6,7 +6,10 @@
     "website": "www.hashmicro.com",
     "category": "expense",
     "depends": ['hr_expense'],
-    "data": [],
+    "data": [
+        'views/expense_time_limit_view.xml',
+        'data/expense_submit_limit_data.xml',
+    ],
     'description': '''
 Features
 -------------------

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hr_expense_config_ext" model="ir.ui.view">
+            <field name="name">hr.expense.config.settings.fomrm.ext</field>
+            <field name="model">hr.expense.config.settings</field>
+            <field name="inherit_id" ref="hr_expense.view_hr_expense_configuration"/>
+            <field name="arch" type="xml">
+            	<xpath expr='//form/group[@name="config_alias"]' position='after'>
+            	    <group name="expense_submit_limit">
+            		    <field name="exp_sub_limit" class="oe_inline"/>
+            		</group>
+            	</xpath>
+		    </field>
+        </record>
+    </data>
+</odoo>
+
+
+
