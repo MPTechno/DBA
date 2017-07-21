@@ -43,41 +43,42 @@ class hr_expense(models.Model):
     
     @api.multi
     def submit_expenses(self):
-        if self.product_id.expense_limit != 0.0 and self.total_amount > self.product_id.expense_limit:
-            raise UserError(_("You can't add more expense than %s !") % (self.product_id.expense_limit))
-        if any(expense.state != 'draft' for expense in self):
-            raise UserError(_("You cannot report twice the same line!"))
-        if len(self.mapped('employee_id')) != 1:
-            raise UserError(_("You cannot report expenses for different employees in the same report!"))
-        if not self.manager_id:
-            raise ValidationError(_('Please Selet the Approver to Approve !'))
-        ir_model_data = self.env['ir.model.data']
-        email_to = ''
-        if self.manager_id:
-            if self.manager_id.user_id:
-                email_to = str(self.manager_id.user_id.partner_id.email)
-        if '@' and '.' not in email_to:
-            raise ValidationError(_('Please provide valid email for the Approver !'))
-        self.ensure_one()
-        template_id = ir_model_data.get_object_reference('dba_expense', 'expense_claim_email_template')[1]
-        if template_id:
-            self.env['mail.template'].browse(template_id).send_mail(self.id)
-        mail_mail_ids = self.env['mail.mail'].search([('state','=','outgoing')])
-        if mail_mail_ids:
-            for mail_mail_id in mail_mail_ids:
-                mail_mail_id.write({'email_to':email_to})
-                mail_mail_id.send()
-        return {
-            'type': 'ir.actions.act_window',
-            'view_mode': 'form',
-            'res_model': 'hr.expense.sheet',
-            'target': 'current',
-            'context': {
-                'default_expense_line_ids': [line.id for line in self],
-                'default_employee_id': self[0].employee_id.id,
-                'default_name': self[0].name if len(self.ids) == 1 else ''
+        for obj in self:
+            if obj.product_id.expense_limit != 0.0 and obj.total_amount > obj.product_id.expense_limit:
+                raise UserError(_("You can't add more expense than %s !") % (obj.product_id.expense_limit))
+            if any(expense.state != 'draft' for expense in obj):
+                raise UserError(_("You cannot report twice the same line!"))
+            if len(obj.mapped('employee_id')) != 1:
+                raise UserError(_("You cannot report expenses for different employees in the same report!"))
+            if not obj.manager_id:
+                raise ValidationError(_('Please Selet the Approver to Approve !'))
+            ir_model_data = self.env['ir.model.data']
+            email_to = ''
+            if obj.manager_id:
+                if obj.manager_id.user_id:
+                    email_to = str(obj.manager_id.user_id.partner_id.email)
+            if '@' and '.' not in email_to:
+                raise ValidationError(_('Please provide valid email for the Approver !'))
+            self.ensure_one()
+            template_id = ir_model_data.get_object_reference('dba_expense', 'expense_claim_email_template')[1]
+            if template_id:
+                self.env['mail.template'].browse(template_id).send_mail(obj.id)
+            mail_mail_ids = self.env['mail.mail'].search([('state','=','outgoing')])
+            if mail_mail_ids:
+                for mail_mail_id in mail_mail_ids:
+                    mail_mail_id.write({'email_to':email_to})
+                    mail_mail_id.send()
+            return {
+                'type': 'ir.actions.act_window',
+                'view_mode': 'form',
+                'res_model': 'hr.expense.sheet',
+                'target': 'current',
+                'context': {
+                    'default_expense_line_ids': [line.id for line in obj],
+                    'default_employee_id': obj.employee_id.id,
+                    'default_name': obj.name if len(obj.ids) == 1 else ''
+                }
             }
-        }
     
     @api.onchange('product_id')
     def _onchange_product_id(self):
