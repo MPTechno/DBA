@@ -52,22 +52,6 @@ class hr_expense(models.Model):
                 raise UserError(_("You cannot report expenses for different employees in the same report!"))
             if not obj.manager_id:
                 raise ValidationError(_('Please Selet the Approver to Approve !'))
-            ir_model_data = self.env['ir.model.data']
-            email_to = ''
-            if obj.manager_id:
-                if obj.manager_id.user_id:
-                    email_to = str(obj.manager_id.user_id.partner_id.email)
-            if '@' and '.' not in email_to:
-                raise ValidationError(_('Please provide valid email for the Approver !'))
-            self.ensure_one()
-            template_id = ir_model_data.get_object_reference('dba_expense', 'expense_claim_email_template')[1]
-            if template_id:
-                self.env['mail.template'].browse(template_id).send_mail(obj.id)
-            mail_mail_ids = self.env['mail.mail'].search([('state','=','outgoing')])
-            if mail_mail_ids:
-                for mail_mail_id in mail_mail_ids:
-                    mail_mail_id.write({'email_to':email_to})
-                    mail_mail_id.send()
             return {
                 'type': 'ir.actions.act_window',
                 'view_mode': 'form',
@@ -79,7 +63,6 @@ class hr_expense(models.Model):
                     'default_name': obj.name if len(obj.ids) == 1 else ''
                 }
             }
-    
     @api.onchange('product_id')
     def _onchange_product_id(self):
         if self.product_id:
@@ -117,44 +100,97 @@ class hr_expense(models.Model):
     
     @api.multi
     def submit_to_account(self):
-        ir_model_data = self.env['ir.model.data']
-        res_groups = self.env['res.groups']
-        self._cr.execute('select id from ir_module_category where name=%s',('DBA AR Modify',))
-        category_id = self._cr.fetchone()
-        group_id = res_groups.search([('name','=','Accountant'),('category_id','=',category_id[0])])
-        email_to = ''
-        if group_id:
-            for user in group_id[0].users:
-                if user.partner_id.email:
-                    email_to = email_to + str(user.partner_id.email) +','
-        if '@' and '.' not in email_to:
-            raise ValidationError(_('Please provide valid email for the Accountant !'))
-        self.ensure_one()
-        template_id = ir_model_data.get_object_reference('dba_expense', 'expense_claim_email_template')[1]
-        if template_id:
-            self.env['mail.template'].browse(template_id).send_mail(self.id)
-        mail_mail_ids = self.env['mail.mail'].search([('state','=','outgoing')])
-        if mail_mail_ids:
-            for mail_mail_id in mail_mail_ids:
-                mail_mail_id.write({'email_to':email_to})
-                mail_mail_id.send()
-            self.submit_to_accountant = True
+        self.submit_to_accountant = True
         return True
 
     @api.multi
-    def get_access_action(self):
-        self.ensure_one()
-        res = super(hr_expense, self).get_access_action()
-        self._cr.execute('select value from ir_config_parameter where key=%s',('web.base.url',))
-        url = str(self._cr.fetchone()[0])
-        if url:
-            url+= '/web#id=%s&view_type=%s&model=%s&action=%s'%(
-                                                             res.get('res_id'),
-                                                             res.get('view_type'),
-                                                             res.get('res_model'),
-                                                             res['context']['params']['action'])
-            return {'url':url}
-        return res
+    def cron_expense_to_approve(self):
+        acc_day = int(self.env.ref('dba_expense.hr_expense_send_email_accountant').value)
+        man_day = int(self.env.ref('dba_expense.hr_expense_send_email_manager').value)
+        acc_msg = self.env.ref('dba_expense.message_acc').value
+        man_msg = self.env.ref('dba_expense.message_man').value
+        today_day = datetime.now().today().day
+        admin = self.env['res.users'].browse(self._uid)
+        ir_model_data = self.env['ir.model.data']
+        res_groups = self.env['res.groups']
+        if today_day == acc_day:#Sending email to Accountant
+            self._cr.execute('select value from ir_config_parameter where key=%s',('web.base.url',))
+            url = str(self._cr.fetchone()[0])
+            action_obj = self.env['ir.actions.act_window'].search([('name','=','To be Approve by Accountant'),
+                                        ('res_model','=','hr.expense')])
+            url+= '/web#view_type=%s&model=%s&action=%s'%('list','hr.expense',action_obj.id)
+            self._cr.execute('select id from ir_module_category where name=%s',('DBA AR Modify',))
+            category_id = self._cr.fetchone()
+            group_id = res_groups.search([('name','=','Accountant'),('category_id','=',category_id[0])])
+            email_to = ''
+            if group_id:
+                for user in group_id[0].users:
+                    if user.partner_id.email:
+                        email_to = user.partner_id
+            if '@' and '.' not in email_to.email:
+                raise ValidationError(_('Please provide valid email for the Accountant !'))
+            mail_values = {
+                        'subject':'%s Please Approve the Expenses'%(email_to.name),
+                        'author_id':self._uid,
+                        'email_from':admin.partner_id.email or '',
+                        'email_to':email_to.email,
+                        'recipient_ids':email_to,
+                        'reply_to':admin.partner_id.email,
+                        'body_html':str(acc_msg)%(email_to.name,url),
+                    }
+            mail_sent = self.env['mail.mail'].create(mail_values).send()
+            
+        if today_day == man_day:#Sending email to Mamanger
+            self._cr.execute('select value from ir_config_parameter where key=%s',('web.base.url',))
+            url = str(self._cr.fetchone()[0])
+            action_obj = self.env['ir.actions.act_window'].search([('name','=','Expense Reports to Approve'),
+                                        ('res_model','=','hr.expense.sheet')])
+            url+= '/web#view_type=%s&model=%s&action=%s'%('list','hr.expense.sheet',action_obj.id)
+            self._cr.execute('select id from ir_module_category where name=%s',('DBA AR Modify',))
+            category_id = self._cr.fetchone()
+            group_id = res_groups.search([('name','=','Manager'),('category_id','=',category_id[0])])
+            email_to = ''
+            if group_id:
+                for user in group_id[0].users:
+                    if user.partner_id.email:
+                        email_to = user.partner_id
+            if '@' and '.' not in email_to.email:
+                raise ValidationError(_('Please provide valid email for the Manager !'))
+            mail_values = {
+                        'subject':'%s Please Approve the Expenses'%(email_to.name),
+                        'author_id':self._uid,
+                        'email_from':admin.partner_id.email or '',
+                        'email_to':email_to.email,
+                        'recipient_ids':email_to,
+                        'reply_to':admin.partner_id.email,
+                        'body_html':str(man_msg)%(email_to.name,url),
+                    }
+            mail_sent = self.env['mail.mail'].create(mail_values).send()
+        return True
+class HrExpenseConfigSettingsExt(models.TransientModel):
+    _inherit = 'hr.expense.config.settings'
+    
+    exp_sub_acc = fields.Integer('Accountant Expense Claim Notification Day of Month')
+    exp_sub_man = fields.Integer('Manager Expense Claim Notification Day of Month')
+    message_acc = fields.Html('Message For Accountant Expense Email Notification')
+    message_man = fields.Html('Message For Manager Expense Email Notification')
+    
+
+    @api.model
+    def get_default_exp_sub(self, fields):
+        acc = int(self.env.ref('dba_expense.hr_expense_send_email_accountant').value)
+        man = int(self.env.ref('dba_expense.hr_expense_send_email_manager').value)
+        msg_acc = self.env.ref('dba_expense.message_acc').value
+        msg_man = self.env.ref('dba_expense.message_man').value
+        return {'exp_sub_acc': acc,'exp_sub_man':man,'message_acc':msg_acc,'message_man':msg_man}
+
+    @api.multi
+    def set_default_exp_sub(self):
+        for record in self:
+            self.env.ref('dba_expense.hr_expense_send_email_accountant').write({'value': str(record.exp_sub_acc)})
+            self.env.ref('dba_expense.hr_expense_send_email_manager').write({'value': str(record.exp_sub_man)})
+            self.env.ref('dba_expense.message_acc').write({'value':str(record.message_acc)})
+            self.env.ref('dba_expense.message_man').write({'value':str(record.message_man)})
 class product_product(models.Model):
     _inherit = 'product.product'
 	

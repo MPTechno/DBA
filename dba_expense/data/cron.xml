@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<odoo>
+	<record model="ir.cron" id="expense_to_approve">
+        <field name="name">Accountant/Manager Expense to Approve</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="True"/>
+        <field name="model" eval="'hr.expense'"/>
+        <field name="function" eval="'cron_expense_to_approve'"/>
+        <field name="args" eval="'()'" />
+    </record>
+</odoo>

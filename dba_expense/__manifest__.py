@@ -10,6 +10,8 @@
         'security/ir.model.access.csv',
         'data/expense_item_data.xml',
         'data/mail_template_data.xml',
+        'data/cron.xml',
+        'data/expense_email_send_days.xml',
 		'views/hr_expense_view.xml',
 		'views/expense_report_view.xml',
 		'views/invoice_report_view.xml',
