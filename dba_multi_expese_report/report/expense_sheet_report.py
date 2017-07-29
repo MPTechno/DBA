@@ -48,7 +48,7 @@ class expense_sheet_report_dba(models.AbstractModel):
         result = []
         for expense_obj in expense_objs:
             for line in expense_obj.expense_line_ids:
-                if str(line.pc_no) not in result:
+                if line.pc_no and str(line.pc_no) not in result:
                     result.append(str(line.pc_no))
         result = str(result)
         result = result.replace("['",'')
