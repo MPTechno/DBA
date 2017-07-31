@@ -127,18 +127,18 @@ class hr_expense(models.Model):
                 for user in group_id[0].users:
                     if user.partner_id.email:
                         email_to = user.partner_id
-            if '@' and '.' not in email_to.email:
-                raise ValidationError(_('Please provide valid email for the Accountant !'))
-            mail_values = {
-                        'subject':'%s Please Approve the Expenses'%(email_to.name),
-                        'author_id':self._uid,
-                        'email_from':admin.partner_id.email or '',
-                        'email_to':email_to.email,
-                        'recipient_ids':email_to,
-                        'reply_to':admin.partner_id.email,
-                        'body_html':str(acc_msg)%(email_to.name,url),
-                    }
-            mail_sent = self.env['mail.mail'].create(mail_values).send()
+                        if '@' and '.' not in email_to.email:
+                            raise ValidationError(_('Please provide valid email for the Accountant !'))
+                        mail_values = {
+                                    'subject':'%s Please Approve the Expenses'%(email_to.name),
+                                    'author_id':self._uid,
+                                    'email_from':admin.partner_id.email or '',
+                                    'email_to':email_to.email,
+                                    'recipient_ids':email_to,
+                                    'reply_to':admin.partner_id.email,
+                                    'body_html':str(acc_msg)%(email_to.name,url),
+                                }
+                        mail_sent = self.env['mail.mail'].create(mail_values).send()
             
         if today_day == man_day:#Sending email to Mamanger
             self._cr.execute('select value from ir_config_parameter where key=%s',('web.base.url',))
@@ -154,18 +154,18 @@ class hr_expense(models.Model):
                 for user in group_id[0].users:
                     if user.partner_id.email:
                         email_to = user.partner_id
-            if '@' and '.' not in email_to.email:
-                raise ValidationError(_('Please provide valid email for the Manager !'))
-            mail_values = {
-                        'subject':'%s Please Approve the Expenses'%(email_to.name),
-                        'author_id':self._uid,
-                        'email_from':admin.partner_id.email or '',
-                        'email_to':email_to.email,
-                        'recipient_ids':email_to,
-                        'reply_to':admin.partner_id.email,
-                        'body_html':str(man_msg)%(email_to.name,url),
-                    }
-            mail_sent = self.env['mail.mail'].create(mail_values).send()
+                        if '@' and '.' not in email_to.email:
+                            raise ValidationError(_('Please provide valid email for the Manager !'))
+                        mail_values = {
+                                    'subject':'%s Please Approve the Expenses'%(email_to.name),
+                                    'author_id':self._uid,
+                                    'email_from':admin.partner_id.email or '',
+                                    'email_to':email_to.email,
+                                    'recipient_ids':email_to,
+                                    'reply_to':admin.partner_id.email,
+                                    'body_html':str(man_msg)%(email_to.name,url),
+                                }
+                        mail_sent = self.env['mail.mail'].create(mail_values).send()
         return True
 class HrExpenseConfigSettingsExt(models.TransientModel):
     _inherit = 'hr.expense.config.settings'
