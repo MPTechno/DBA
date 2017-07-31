@@ -50,12 +50,7 @@ class expense_sheet_report_dba(models.AbstractModel):
             for line in expense_obj.expense_line_ids:
                 if line.pc_no and str(line.pc_no) not in result:
                     result.append(str(line.pc_no))
-        result = str(result)
-        result = result.replace("['",'')
-        result = result.replace("[",'')
-        result = result.replace("']",'')
-        result = result.replace("]",'')
-        result = result.replace("'",'')
+        result = str(result).replace("['",'').replace("[",'').replace("']",'').replace("]",'').replace("'",'')
         return result
 
 
@@ -67,12 +62,7 @@ class expense_sheet_report_dba(models.AbstractModel):
             for line in expense_obj.expense_line_ids:
                 if line.cheque_no and str(line.cheque_no) not in result:
                     result.append(str(line.cheque_no))
-        result = str(result)
-        result = result.replace("['",'')
-        result = result.replace("[",'')
-        result = result.replace("']",'')
-        result = result.replace("]",'')
-        result = result.replace("'",'')
+        result = str(result).replace("['",'').replace("[",'').replace("']",'').replace("]",'').replace("'",'')
         return result
 
         
