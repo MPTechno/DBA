@@ -52,7 +52,9 @@ class expense_sheet_report_dba(models.AbstractModel):
                     result.append(str(line.pc_no))
         result = str(result)
         result = result.replace("['",'')
+        result = result.replace("[",'')
         result = result.replace("']",'')
+        result = result.replace("]",'')
         result = result.replace("'",'')
         return result
 
@@ -67,7 +69,9 @@ class expense_sheet_report_dba(models.AbstractModel):
                     result.append(str(line.cheque_no))
         result = str(result)
         result = result.replace("['",'')
+        result = result.replace("[",'')
         result = result.replace("']",'')
+        result = result.replace("]",'')
         result = result.replace("'",'')
         return result
 
