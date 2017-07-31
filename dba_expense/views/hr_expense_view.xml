@@ -37,6 +37,14 @@
 		</field>
     </record>
     
+    <record id="hr_expense_submit_to_account" model="ir.actions.act_window">
+            <field name="name">To be Approve by Accountant</field>
+            <field name="res_model">hr.expense</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,kanban,pivot,graph</field>
+            <field name="domain">[('submit_to_accountant', '=', True)]</field>
+    </record>
+    
     <record id="hr_expense_view_expenses_tree_dba" model="ir.ui.view">
         <field name="name">hr.expense.view.expenses.tree.dba</field>
         <field name="model">hr.expense</field>
