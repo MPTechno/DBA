@@ -16,6 +16,9 @@
         	<button name="action_timesheet_draft" position="attributes">
         	    <attribute name="invisible">1</attribute>
         	</button>
+        	<field name="state" position="replace">
+        	    <field name="state" widget="statusbar" statusbar_visible="new,confirm,done"/>
+        	</field>
         </field>
     </record>
     <!--Timesheet Notification Configuration Form-->

@@ -9,6 +9,16 @@ import calendar
 class TimeSheetExt(models.Model):
     _inherit = 'hr_timesheet_sheet.sheet'
     
+    state = fields.Selection([
+        ('new', 'New'),
+        ('draft', 'Open'),
+        ('confirm', 'Waiting Approval'),
+        ('done', 'Submitted')], default='new', track_visibility='onchange',
+        string='Status', required=True, readonly=True, index=True,
+        help=' * The \'Open\' status is used when a user is encoding a new and unconfirmed timesheet. '
+             '\n* The \'Waiting Approval\' status is used to confirm the timesheet by user. '
+             '\n* The \'Approved\' status is used when the users timesheet is accepted by his/her senior.')
+    
     def action_timesheet_done(self):
         return self.write({'state':'done'})
         
