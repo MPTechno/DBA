@@ -10,6 +10,10 @@
             <xpath expr='//search/group' position='inside'>
             	<filter string="Category" domain="[]" context="{'group_by' : 'contract_category_id'}" />
             </xpath>
+            <xpath expr='//search/field[@name="parent_id"]' position='after'>
+            	<filter name="new" string="New" domain="[('state','=','draft')]"/>
+            </xpath>
+            
         </field>
     </record>
     
