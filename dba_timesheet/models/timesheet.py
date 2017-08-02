@@ -88,9 +88,9 @@ class TimesheetNotificationConfig(models.Model):
         msg += '''Regards,<br/>'''
         msg += '''%s'''
         return msg
-    
-    reminder_day = fields.Char(string="Reminder Day",required=True)
-    notify_day = fields.Char(string="Notificaton Day",required=True)
+    weekdays = [(day,day) for day in list(calendar.day_name)]
+    reminder_day = fields.Selection(weekdays, string="Reminder Day",required=True)
+    notify_day = fields.Selection(weekdays, string="Notificaton Day",required=True)
     reminder_message = fields.Html(string="Reminder Message",required=True,default=_get_reminder_msg)
     notify_message = fields.Html(string="Notification Message",required=True,default=_get_notify_msg)
     
