@@ -280,6 +280,7 @@
                     <field name="date_end"/>
                     <field name="manager_id"/>
                     <field name="pricelist_id" invisible="1"/>
+                    <field name="state"/>
                 </field>
             </field>
         </record>
