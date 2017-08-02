@@ -15,6 +15,7 @@
 		'views/hr_expense_view.xml',
 		'views/expense_report_view.xml',
 		'views/invoice_report_view.xml',
+		'wizard/hr_expense_wizard_view.xml',
     ],
     'description': '''
 Features

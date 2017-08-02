@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <act_window id="action_expense_apply_approver"
+            multi="True"
+            key2="client_action_multi" name="Apply Approver"
+            res_model="expense.apply.approver" src_model="hr.expense"
+            view_mode="form" target="new" view_type="form"/>
+
+        <record id="view_apply_approver_wizard" model="ir.ui.view">
+            <field name="name">expense.apply.approver.form</field>
+            <field name="model">expense.apply.approver</field>
+            <field name="arch" type="xml">
+                <form string="Apply Approver">
+                    <group>
+                        <field name="employee_id" class="oe_inline"/>
+                    </group>
+                    <footer>
+                        <button name="set_Approver" string="Apply" type="object"/>
+                       <button string="Close" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_expsense_sheet_report" model="ir.actions.act_window">
+            <field name="name">Apply Approver</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">expense.apply.approver</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_apply_approver_wizard"/>
+            <field name="target">new</field>
+        </record>
+
+</odoo>
