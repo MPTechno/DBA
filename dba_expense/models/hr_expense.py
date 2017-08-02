@@ -169,9 +169,10 @@ class hr_expense(models.Model):
         return True
 class HrExpenseConfigSettingsExt(models.TransientModel):
     _inherit = 'hr.expense.config.settings'
-    
-    exp_sub_acc = fields.Integer('Accountant Expense Claim Notification Day of Month')
-    exp_sub_man = fields.Integer('Manager Expense Claim Notification Day of Month')
+        
+    days = [(days,days) for days in range(1,32)]
+    exp_sub_acc = fields.Selection(days,string='Accountant Expense Claim Notification Day of Month',required=True)
+    exp_sub_man = fields.Selection(days,string='Manager Expense Claim Notification Day of Month',required=True)
     message_acc = fields.Html('Message For Accountant Expense Email Notification')
     message_man = fields.Html('Message For Manager Expense Email Notification')
     
