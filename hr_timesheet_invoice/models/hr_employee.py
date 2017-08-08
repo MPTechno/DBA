@@ -19,5 +19,5 @@ class hr_employee(models.Model):
     def compute_default_journal(self):
         return self.env.ref('hr_timesheet_invoice.timesheet_journal')
 
-    product_id = fields.Many2one('product.product', 'Product', default=compute_default_product)
-    journal_id = fields.Many2one('account.journal', 'Analytic Journal', domain=[('type', '=', 'service')], default=compute_default_journal)
+    product_id = fields.Many2one('product.product', 'Product',domain=[('type', '=', 'service')], default=compute_default_product)
+    journal_id = fields.Many2one('account.journal', 'Analytic Journal',  default=compute_default_journal)
