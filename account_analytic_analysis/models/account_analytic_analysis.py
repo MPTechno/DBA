@@ -103,8 +103,8 @@ class account_analytic_account(models.Model):
             name = analytic.name
             if analytic.code:
                 name = name +' - '+analytic.code
-            if analytic.partner_id:
-                name = name +' - '+analytic.partner_id.commercial_partner_id.name
+            #if analytic.partner_id:
+            #    name = name +' - '+analytic.partner_id.commercial_partner_id.name
             res.append((analytic.id, name))
         return res
     
