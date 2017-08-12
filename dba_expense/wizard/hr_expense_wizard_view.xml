@@ -3,7 +3,7 @@
 
         <act_window id="action_expense_apply_approver"
             multi="True"
-            key2="client_action_multi" name="Apply Approver"
+            key2="client_action_multi" name="Set Approver"
             res_model="expense.apply.approver" src_model="hr.expense"
             view_mode="form" target="new" view_type="form"/>
 
