@@ -6,6 +6,15 @@ from datetime import datetime,time
 from dateutil.relativedelta import relativedelta
 import calendar
 
+class AccountAnalyticLine(models.Model):
+    _inherit = 'account.analytic.line'
+    
+    @api.multi
+    def write(self, values):
+        if self.state != 'done':
+            self._check_state()
+        return super(AccountAnalyticLine, self).write(values)
+        
 class TimeSheetExt(models.Model):
     _inherit = 'hr_timesheet_sheet.sheet'
     
