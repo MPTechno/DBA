@@ -9,11 +9,11 @@ import calendar
 class AccountAnalyticLine(models.Model):
     _inherit = 'account.analytic.line'
     
-    @api.multi
-    def write(self, values):
-        if self.state != 'done':
-            self._check_state()
-        return super(AccountAnalyticLine, self).write(values)
+    def _check_state(self):
+        for line in self:
+            if line.sheet_id and line.sheet_id.state not in ('draft', 'new','done'):
+                raise UserError(_('You cannot modify an entry in a confirmed timesheet.'))
+        return True
         
 class TimeSheetExt(models.Model):
     _inherit = 'hr_timesheet_sheet.sheet'
