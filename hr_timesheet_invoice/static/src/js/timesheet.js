@@ -302,7 +302,7 @@ setTimeout(function() {
                 attrs: {
                     name:"non_code_activity",
                     type:"char",
-                    placeholder: "Non Code Activity",
+                    placeholder: "Description",
                     domain: [ ],
                     modifiers: '{"required": false}',
                 },
