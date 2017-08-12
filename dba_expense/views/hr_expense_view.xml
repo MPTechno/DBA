@@ -30,7 +30,7 @@
         	    <attribute name="string">Submit To Approver</attribute>
         	</button>
         	<xpath expr='//form/header/button[@name="submit_expenses"]' position='after'>
-        		<button name="submit_to_account" string="Submit to Account" 
+        		<button name="submit_to_account" string="Submit" 
         		type="object" class="oe_highlight o_expense_submit"
         		attrs="{'invisible':[('submit_to_accountant','=',True)]}"/>
         	</xpath>
