@@ -5,7 +5,7 @@
     "version": "10.0.1",
     "website": "www.hashmicro.com",
     "category": "expense",
-    "depends": ['base','product','account','hr_expense','document','dba_ar_modify'],
+    "depends": ['base','product','account','hr_expense','document','dba_ar_modify','auth_signup'],
     "data": [
         'security/ir.model.access.csv',
         'data/expense_item_data.xml',
