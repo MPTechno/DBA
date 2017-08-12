@@ -75,18 +75,23 @@ class account_analytic_account(models.Model):
                 if pricelist:
                     record.pricelist_id = pricelist
         # return res
-
+        
+    @api.model
+    def create(self,vals):
+        vals.update({'date_start':fields.Date.today()})
+        return super(account_analytic_account,self).create(vals)
+        
     @api.multi
     def set_close(self):
-        return self.write({'state': 'close'})
+        return self.write({'state': 'close','date_end':fields.Datetime.now()})
 
     @api.multi
     def set_cancel(self):
-        return self.write({'state': 'cancelled'})
+        return self.write({'state': 'cancelled','date_end':fields.Datetime.now()})
 
     @api.multi
     def set_open(self):
-        return self.write({'state': 'open'})
+        return self.write({'state': 'open','date_end':False})
 
     @api.multi
     def set_pending(self):
