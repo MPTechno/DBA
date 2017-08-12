@@ -293,7 +293,7 @@ setTimeout(function() {
                 attrs: {
                     name: "code7",
                     type: "many2one",
-                    placeholder: "Code7",
+                    placeholder: "Code-7",
                     domain: [ ],
                     modifiers: '{"required": false}',
                 },
