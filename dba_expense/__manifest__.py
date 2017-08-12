@@ -5,7 +5,7 @@
     "version": "10.0.1",
     "website": "www.hashmicro.com",
     "category": "expense",
-    "depends": ['base','product','account','hr_expense','document','dba_ar_modify','auth_signup'],
+    "depends": ['base','product','account','hr_expense','document','dba_ar_modify','auth_signup','stock'],
     "data": [
         'security/ir.model.access.csv',
         'data/expense_item_data.xml',
@@ -16,6 +16,7 @@
 		'views/expense_report_view.xml',
 		'views/invoice_report_view.xml',
 		'wizard/hr_expense_wizard_view.xml',
+		'views/invoice_view.xml',
     ],
     'description': '''
 Features
