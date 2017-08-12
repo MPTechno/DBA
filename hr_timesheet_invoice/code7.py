@@ -9,15 +9,15 @@ class CodeSeven(models.Model):
     
     name = fields.Char(string='Code7')
     
-    @api.multi
-    def name_get(self):
-        result = []
-        count = 1
-        for rec in self:
-            name = str(count) + '-' + rec.name 
-            result.append((rec.id, name))
-            count+= 1
-        return result
+#    @api.multi
+#    def name_get(self):
+#        result = []
+#        count = 1
+#        for rec in self:
+#            name = str(count) + '-' + rec.name 
+#            result.append((rec.id, name))
+#            count+= 1
+#        return result
     
 class AccountAnalyticLineExt(models.Model):
     _inherit = 'account.analytic.line'
