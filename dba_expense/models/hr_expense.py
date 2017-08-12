@@ -11,7 +11,7 @@ class hr_expense(models.Model):
     cheque_no = fields.Char('Cheque No')
     pc_no = fields.Char('PC#')
     manager_id = fields.Many2one('hr.employee','Approver')
-    submit_to_accountant = fields.Boolean('Submitted to Accountant',readonly=True)
+    submit_to_accountant = fields.Boolean('Submitted',readonly=True)
     
     
     @api.multi
