@@ -283,9 +283,9 @@ setTimeout(function() {
                 attrs: {
                     name: "account_id",
                     type: "many2one",
-                    domain: [
-                        ['id', 'not in', _.pluck(this.accounts, 'account_id')],
-                    ],
+                    //domain: [
+                    //    ['id', 'not in', _.pluck(this.accounts, 'account_id')],
+                    //],
                     modifiers: '{"required": true}',
                 },
             });
@@ -320,6 +320,7 @@ setTimeout(function() {
                 var id = self.account_m2o.get_value();
                 var pid = self.code7_m2o.get_value();
                 var codeid = self.non_code_activity.get_value();
+                if (codeid===false){codeid = ''}
                 if (id === false) {
                     self.dfm.set({display_invalid_fields: true});
                     return;
