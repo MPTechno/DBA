@@ -309,6 +309,7 @@ setTimeout(function() {
             });
             this.non_code_activity.prependTo(this.$(".o_add_timesheet_line > div")).then(function() {
                 self.non_code_activity.$el.addClass('oe_edit_only');
+                self.non_code_activity.$el.css('width','150px');
             });
             this.code7_m2o.prependTo(this.$(".o_add_timesheet_line > div")).then(function() {
                 self.code7_m2o.$el.addClass('oe_edit_only');
