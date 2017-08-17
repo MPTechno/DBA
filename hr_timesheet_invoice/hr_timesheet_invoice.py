@@ -83,11 +83,11 @@ class account_analytic_account(models.Model):
         
     @api.multi
     def set_close(self):
-        return self.write({'state': 'close','date_end':fields.Datetime.now()})
+        return self.write({'state': 'close','date_end':fields.Date.today()})
 
     @api.multi
     def set_cancel(self):
-        return self.write({'state': 'cancelled','date_end':fields.Datetime.now()})
+        return self.write({'state': 'cancelled','date_end':fields.Date.today()})
 
     @api.multi
     def set_open(self):

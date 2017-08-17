@@ -11,6 +11,7 @@ class account_analytic_account(models.Model):
     
     contract_category_id = fields.Many2one('contract.category', string='Category')
     description = fields.Char('Description')
+    date_end = fields.Date('Expiration Date')
 
     _sql_constraints = [
         ('name_uniq', 'unique(name)', 'Project Code already exists !'),

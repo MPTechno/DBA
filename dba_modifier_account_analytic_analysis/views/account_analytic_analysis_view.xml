@@ -32,6 +32,9 @@
             <label for="name" position="replace">
                 <label for="name" string="Project Code"/>
             </label>
+            <field name="date_end" position="replace">
+                <field name="date_end"/>
+            </field>
         </field>
     </record>
     
