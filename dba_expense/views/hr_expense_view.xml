@@ -8,22 +8,25 @@
         <field name="arch" type="xml">
         	<field name="product_id" position="attributes">
         		<attribute name="string">Expense Item</attribute>
+        		<attribute name="readonly">[('submit_to_accountant','=',True)]</attribute>
         	</field>
         	<field name="analytic_account_id" position="attributes">
         		<attribute name="string">Project Code</attribute>
+        		<attribute name="readonly">[('submit_to_accountant','=',True)]</attribute>
         	</field>
         	<field name="company_id" position="after">
-        		<field name="manager_id" groups="dba_ar_modify.group_accountant_dba"/>
+        		<field name="manager_id" groups="dba_ar_modify.group_accountant_dba" attrs="{'readonly':[('submit_to_accountant','=',True)]}"/>
         		<field name="submit_to_accountant"/>
-        		<field name="paid_by" groups="dba_ar_modify.group_accountant_dba"/> 
-        		<field name="cheque_no" attrs="{'invisible': [('paid_by', '=','Cash')]}" groups="dba_ar_modify.group_accountant_dba"/> 
+        		<field name="paid_by" groups="dba_ar_modify.group_accountant_dba" attrs="{'readonly':[('submit_to_accountant','=',True)]}"/> 
+        		<field name="cheque_no" attrs="{'invisible': [('paid_by', '=','Cash')],'readonly':[('submit_to_accountant','=',True)]}" groups="dba_ar_modify.group_accountant_dba"/> 
         	</field>
         	<field name="tax_ids" position="attributes">
         	    <attribute name="groups"></attribute>
+        	    <attribute name="readonly">[('submit_to_accountant','=',True)]</attribute>
         	</field>
         
         	<field name="tax_ids" position="after">
-        		<field name="pc_no" groups="dba_ar_modify.group_accountant_dba"/> 
+        		<field name="pc_no" groups="dba_ar_modify.group_accountant_dba" attrs="{'readonly':[('submit_to_accountant','=',True)]}"/> 
         	</field>
         	<button name="submit_expenses" position="attributes">
         	    <attribute name="groups">dba_ar_modify.group_accountant_dba</attribute>
@@ -34,6 +37,46 @@
         		type="object" class="oe_highlight o_expense_submit"
         		attrs="{'invisible':[('submit_to_accountant','=',True)]}"/>
         	</xpath>
+        	<field name="product_uom_id" position="replace">
+        		<field name="product_uom_id" widget="selection" class="oe_inline" groups="product.group_uom" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
+        	</field>
+
+			<field name="product_id" position="replace">
+        		<field name="product_id" context="{'default_can_be_expensed': 1}" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
+        	</field>
+			<field name="unit_amount" position="replace">
+        		<field name="unit_amount" required="1" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
+        	</field>
+			<field name="tax_ids" position="replace">
+        		<field name="tax_ids" domain="[('type_tax_use', '=', 'purchase')]" widget="many2many_tags" groups="base.group_no_one" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
+        	</field>
+			<field name="reference" position="replace">
+        		<field name="reference" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
+        	</field>
+			<field name="date" position="replace">
+        		<field name="date" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
+        	</field>
+			<field name="account_id" position="replace">
+        		<field name="account_id" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
+        	</field>
+			<field name="employee_id" position="replace">
+        		<field name="employee_id" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
+        	</field>
+			<field name="sheet_id" position="replace">
+        		<field name="sheet_id" invisible="1" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
+        	</field>
+			<field name="currency_id" position="replace">
+        		<field name="currency_id" attrs="{'readonly': [('submit_to_accountant', '=', True)]}" groups="base.group_multi_currency"/>
+        	</field>
+			<field name="analytic_account_id" position="replace">
+        		<field name="analytic_account_id" attrs="{'readonly': [('submit_to_accountant', '=', True)]}" groups="analytic.group_analytic_accounting"/>
+        	</field>
+			<field name="company_id" position="replace">
+        		<field name="company_id" attrs="{'readonly': [('submit_to_accountant', '=', True)]}" groups="base.group_multi_company"/>
+        	</field>
+        	<field name="quantity" position="replace">
+        	    <field name="quantity" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
+        	</field>
 		</field>
     </record>
     
