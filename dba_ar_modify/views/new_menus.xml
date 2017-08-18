@@ -50,5 +50,18 @@
         action="hr_expense.hr_expense_actions_my_unsubmitted" 
         parent="my_expenses_two" 
         groups="group_user_dba,group_manager_dba,group_sub_admin2_dba"/>
+        
+    <!--Inherited analytic accounts list view for the dba_ar_modify user-->
+    <record id="inherit_view_account_analytic_account_tree_for_dba_user" model="ir.ui.view">
+            <field name="name">account.analytic.account.list.dba.user</field>
+            <field name="model">account.analytic.account</field>
+            <field name="inherit_id" ref="analytic.view_account_analytic_account_list"/>
+            <field name="groups_id" eval="[(4, ref('dba_ar_modify.group_user_dba'))]"/>
+            <field name="arch" type="xml">
+                <field name="debit" position="replace"/>
+                <field name="credit" position="replace"/>
+                <field name="balance" position="replace"/>
+            </field>
+    </record>
 	</data>
 </odoo>

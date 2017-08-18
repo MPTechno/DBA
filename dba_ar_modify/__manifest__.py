@@ -12,6 +12,7 @@
                 "project_issue_sheet",
                 "hr_timesheet_invoice",
                 "hr_timesheet_sheet",
+                "analytic",
                 ],
     "author": "Hashmicro/Kunal",
     "website": "http://www.hashmicro.com",
