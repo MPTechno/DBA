@@ -28,6 +28,7 @@ class ir_ui_menu(models.Model):
         	'calendar.mail_menu_calendar',
         	'utm.menu_link_tracker_root',
             'sales_team.menu_base_partner',
+            'dba_ar_modify.menu_sales_project_code',
             'account.menu_finance',
             'hr_timesheet.timesheet_menu_root',
             'hr.menu_hr_root',
