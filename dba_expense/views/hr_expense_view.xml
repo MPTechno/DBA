@@ -77,6 +77,12 @@
         	<field name="quantity" position="replace">
         	    <field name="quantity" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
         	</field>
+        	<field name="payment_mode" position="replace">
+        	    <field name="payment_mode" widget="radio" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
+        	</field>
+        	<field name="description" position="replace">
+        	    <field name="description" placeholder="Notes..." attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
+        	</field>
 		</field>
     </record>
     
