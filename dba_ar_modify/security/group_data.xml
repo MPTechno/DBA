@@ -13,15 +13,20 @@
         <field name="category_id" ref="module_dba_ar_modify"/>
     </record>
     
+    <record id="group_sub_admin2_dba" model="res.groups">
+        <field name="name">Sub Admin 2</field>
+        <field name="category_id" ref="module_dba_ar_modify"/>
+    </record>
+    
     <record id="group_manager_dba" model="res.groups">
         <field name="name">Manager</field>
         <field name="category_id" ref="module_dba_ar_modify"/>
     </record>
     
-    <record id="group_accountant_dba" model="res.groups">
+    <!--record id="group_accountant_dba" model="res.groups">
         <field name="name">Accountant</field>
         <field name="category_id" ref="module_dba_ar_modify"/>
-    </record>
+    </record-->
     
     <record id="group_user_dba" model="res.groups">
         <field name="name">User</field>

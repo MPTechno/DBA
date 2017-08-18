@@ -22,13 +22,15 @@ Create some access right ID group.
 -------------------------------------
     - Admin As an administrator.
     - Sub Admin
+    - Sub Admin-2
     - Manager
-    - Accountant
+    - Accountant As an administrator
     - User
 """,
     'data': [
         'security/group_data.xml',
         'security/ir.model.access.csv',
+        'views/new_menus.xml',
     ],
     'installable': True,
     'active': False,
