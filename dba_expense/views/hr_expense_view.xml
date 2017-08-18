@@ -83,6 +83,9 @@
         	<field name="description" position="replace">
         	    <field name="description" placeholder="Notes..." attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
         	</field>
+        	<field name="name" position="replace">
+        	    <field name="name" placeholder="e.g. Lunch with Customer" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
+        	</field>
 		</field>
     </record>
     
