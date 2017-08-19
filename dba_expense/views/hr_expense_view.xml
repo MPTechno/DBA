@@ -6,14 +6,6 @@
         <field name="model">hr.expense</field>
         <field name="inherit_id" ref="hr_expense.hr_expense_form_view"/>
         <field name="arch" type="xml">
-        	<field name="product_id" position="attributes">
-        		<attribute name="string">Expense Item</attribute>
-        		<attribute name="readonly">[('submit_to_accountant','=',True)]</attribute>
-        	</field>
-        	<field name="analytic_account_id" position="attributes">
-        		<attribute name="string">Project Code</attribute>
-        		<attribute name="readonly">[('submit_to_accountant','=',True)]</attribute>
-        	</field>
         	<field name="company_id" position="after">
         		<field name="manager_id" groups="dba_ar_modify.group_accountant_dba" attrs="{'readonly':[('submit_to_accountant','=',True)]}"/>
         		<field name="submit_to_accountant"/>
@@ -42,7 +34,7 @@
         	</field>
 
 			<field name="product_id" position="replace">
-        		<field name="product_id" context="{'default_can_be_expensed': 1}" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
+        		<field name="product_id" context="{'default_can_be_expensed': 1}" attrs="{'readonly': [('submit_to_accountant', '=', True)]}" string="Expense Item"/>
         	</field>
 			<field name="unit_amount" position="replace">
         		<field name="unit_amount" required="1" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
@@ -71,7 +63,7 @@
         		<field name="currency_id" attrs="{'readonly': [('submit_to_accountant', '=', True)]}" groups="base.group_multi_currency"/>
         	</field>
 			<field name="analytic_account_id" position="replace">
-        		<field name="analytic_account_id" attrs="{'readonly': [('submit_to_accountant', '=', True)]}" groups="analytic.group_analytic_accounting"/>
+        		<field name="analytic_account_id" attrs="{'readonly': [('submit_to_accountant', '=', True)]}" groups="analytic.group_analytic_accounting" string="Project Code"/>
         	</field>
 			<field name="company_id" position="replace">
         		<field name="company_id" attrs="{'readonly': [('submit_to_accountant', '=', True)]}" groups="base.group_multi_company"/>
