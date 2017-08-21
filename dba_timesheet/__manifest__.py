@@ -7,7 +7,7 @@
     "category": "timesheet",
     "depends": ['hr_timesheet_sheet','hr_timesheet_invoice'],
     "data": [
-        'security/security.xml',
+        #'security/security.xml',
         'security/ir.model.access.csv',
 		'views/timesheet_view.xml',
 		'data/cron.xml',
