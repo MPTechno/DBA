@@ -119,11 +119,11 @@ class account_analytic_line(models.Model):
 
     @api.multi
     def _check_inv(self, vals):
-        if ( not vals.has_key('invoice_id')) or vals['invoice_id' ] == False:
-            for line in self:
-                if line.invoice_id:
-                    raise exceptions.Warning(_('Error!'),
-                        _('You cannot modify an invoiced analytic line!'))
+        # if ( not vals.has_key('invoice_id')) or vals['invoice_id' ] == False:
+        #     for line in self:
+        #         if line.invoice_id:
+        #             raise exceptions.Warning(_('Error!'),
+        #                 _('You cannot modify an invoiced analytic line!'))
         return True
 
     @api.model
