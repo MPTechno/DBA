@@ -42,8 +42,13 @@ class TimeSheetExt(models.Model):
         if notification:
             if weekday == str(notification.reminder_day):
                 timesheets_objs = self.search([('state','=','draft')])
-                timesheet_emps = [tobj.employee_id for tobj in timesheets_objs]
-                for emp in timesheet_emps:
+                #timesheet_emps = [tobj.employee_id for tobj in timesheets_objs]
+                self._cr.execute('select value from ir_config_parameter where key=%s',('web.base.url',))
+                server = str(self._cr.fetchone()[0])
+                for tobj in timesheets_objs:
+                #for emp in timesheet_emps:
+                    emp = tobj.employee_id
+                    url = server+'/web#id=%s&view_type=%s&model=%s'%(tobj.id,'form','hr_timesheet_sheet.sheet')
                     mail_values = {
                         'subject':'Please Fill Timesheet Today',
                         'author_id':self._uid,
@@ -51,7 +56,7 @@ class TimeSheetExt(models.Model):
                         'email_to':emp.user_id.partner_id.email,
                         'recipient_ids':emp.user_id.partner_id,
                         'reply_to':admin.partner_id.email,
-                        'body_html':str(notification.reminder_message)%(emp.name,emp.parent_id.name),
+                        'body_html':str(notification.reminder_message)%(emp.name,tobj.date_from,tobj.date_to,url,emp.parent_id.name),
                     }
                     mail_sent = self.env['mail.mail'].create(mail_values).send()
             
@@ -66,7 +71,9 @@ class TimeSheetExt(models.Model):
                 date_to = str(date_to).split(' ')[0]
                 timesheets_objs = self.search([('date_from','=',date_from),('date_to','=',date_to),('state','=','draft')])
                 timesheet_emps = [tobj.employee_id for tobj in timesheets_objs]
-                for emp in timesheet_emps:
+                for tobj in timesheets_objs:
+                #for emp in timesheet_emps:
+                    emp = tobj.employee_id
                     man_email = emp.parent_id and emp.parent_id.user_id and emp.parent_id.user_id.partner_id.email or ''
                     mail_values = {
                         'subject':'%s did not submit timesheet'%(emp.name),
@@ -76,7 +83,7 @@ class TimeSheetExt(models.Model):
                         'email_cc':man_email,
                         'recipient_ids':emp.user_id.partner_id,
                         'reply_to':admin.partner_id.email,
-                        'body_html':str(notification.notify_message)%(emp.name,emp.parent_id.name),
+                        'body_html':str(notification.notify_message)%(emp.name,tobj.date_from,tobj.date_to,emp.parent_id.name),
                     }
                     mail_sent = self.env['mail.mail'].create(mail_values).send()
         return True
@@ -87,6 +94,8 @@ class TimesheetNotificationConfig(models.Model):
     def _get_reminder_msg(self):
         msg = '''Dear %s,<br/>'''
         msg += '''You forgot to submit your timesheet this week <br/>'''
+        msg += '''<b>Date From</b>:%s-<b>Date To</b>:%s <br/>'''
+        msg += '''<b>URL</b>:<a href=%s target='new'>Click here</a></br>'''
         msg += '''Regards,<br/>'''
         msg += '''%s'''
         return msg
@@ -94,6 +103,7 @@ class TimesheetNotificationConfig(models.Model):
         msg = '''Dear %s,<br/>'''
         msg += '''This is second notify<br/>'''
         msg += '''you forgot to submit your timesheet last week<br/>'''
+        msg += '''<b>Date From</b>:%s-<b>Date To</b>:%s <br/>'''
         msg += '''Regards,<br/>'''
         msg += '''%s'''
         return msg
