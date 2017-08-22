@@ -177,5 +177,14 @@
 		        </t>
 		    </t>
 		</template>
+		<!--Hide the default report of Expense-->
+		<report
+        id="hr_expense.action_report_hr_expense_sheet"
+        string="Expenses Report"
+        model="hr.expense.sheet"
+        report_type="qweb-pdf"
+        name="hr_expense.report_expense_sheet"
+        file="hr_expense.report_expense_sheet"
+        menu="False"/>
    </data>
 </openerp>
