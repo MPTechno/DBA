@@ -8,6 +8,7 @@
     "depends": ['base','product','account','hr_expense','document','dba_ar_modify','auth_signup','stock'],
     "data": [
         'security/ir.model.access.csv',
+        'security/ir_rule.xml',
         'data/expense_item_data.xml',
         'data/mail_template_data.xml',
         'data/cron.xml',
