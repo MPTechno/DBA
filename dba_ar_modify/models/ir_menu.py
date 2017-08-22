@@ -94,5 +94,16 @@ class ir_ui_menu(models.Model):
                 if menu_ids and len(menu_ids) > 0:
                     args.append('!')
                     args.append(('id', 'in', menu_ids))
-            
+        menu_data = [
+            'purchase.menu_purchase_root',
+        ]
+        if self.env.uid != SUPERUSER_ID or 1 == 1:
+            menu_ids = []
+            for menu_item in menu_data:
+                menu = self.env.ref(menu_item)
+                if menu and menu.id:
+                    menu_ids.append(menu.id)
+            if menu_ids and len(menu_ids) > 0:
+                args.append('!')
+                args.append(('id', 'in', menu_ids))
         return super(ir_ui_menu, self).search(args, offset, limit, order, count=count)
