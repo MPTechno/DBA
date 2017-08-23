@@ -130,7 +130,7 @@ if records:
             <field name="res_model">hr.expense</field>
             <field name="view_mode">tree,kanban,form,graph,pivot</field>
             <field name="search_view_id" ref="hr_expense.view_hr_expense_filter"/>
-            <field name="context">{'search_default_to_report': 1}</field>
+            <field name="context">{'search_default_to_report': 1,'search_default_my_expenses':1}</field>
             <field name="help" type="html">
               <p>
                 The steps to process expenses are:
@@ -143,6 +143,42 @@ if records:
               </p>
             </field>
         </record>
+        <!--Override the search-view-->
+       <record id="hr_expense.view_hr_expense_filter" model="ir.ui.view">
+            <field name="name">hr.expense.filter</field>
+            <field name="model">hr.expense</field>
+            <field name="arch" type="xml">
+                <search string="Expense">
+                    <field name="name" string="Expenses"/>
+                    <field name="date"/>
+                    <field name="employee_id"/>
+                    <field name="product_id"/>
+                    <field name="analytic_account_id" groups="analytic.group_analytic_accounting"/>
+                    <separator />
+                    <filter domain="[('state', '=', 'draft')]" string="To Submit" name="to_report" help="New Expense"/>
+                    <filter domain="[('state', '=', 'reported')]" string="Reported" name="submitted" help="Confirmed Expenses"/>
+                    <filter domain="[('state', '=', 'refused')]" string="Refused" name="refused" help="Refused Expenses"/>
+                    <filter domain="[('state', '!=', 'cancel')]" string="Not Refused" name="uncancelled" help="Actual expense sheets, not the refused ones"/>
+                    <separator />
+                    <filter string="My Team Expenses" domain="[('employee_id.parent_id.user_id', '=', uid)]" groups="hr_expense.group_hr_expense_manager" help="Expenses of Your Team Member"/>
+                    <filter name="my_expenses" string="My Expenses" domain="[('employee_id.user_id', '=', uid)]"/>
+                    <separator />
+                    <filter string="New Mail" name="message_unread" domain="[('message_unread', '=', True)]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Report" domain="[]" context="{'group_by': 'sheet_id'}"/>
+                        <filter string="Employee" domain="[]" context="{'group_by': 'employee_id'}"/>
+                        <filter string="Company" domain="[]" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+                        <filter string="Product" domain="[]" context="{'group_by': 'product_id'}"/>
+                        <filter string="Analytic Account" domain="[]" context="{'group_by': 'analytic_account_id'}" groups="analytic.group_analytic_accounting"/>
+                        <filter string="Expenses Month" domain="[]" context="{'group_by': 'date'}" help="Expenses by Month"/>
+                        <filter string="Status" domain="[]" context="{'group_by': 'state'}"/>
+                    </group>
+                    <separator />
+                    <filter domain="[('employee_id.active', '=', False)]" string="Former Employees" name="inactive" groups="hr_expense.group_hr_expense_user,hr_expense.group_hr_expense_manager"/>
+                </search>
+            </field>
+        </record>
+        
 
 </odoo>
 
