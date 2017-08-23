@@ -21,7 +21,7 @@ class TimeSheetExt(models.Model):
     state = fields.Selection([
         ('new', 'New'),
         ('draft', 'Open'),
-        ('confirm', 'Waiting Approval'),
+        #('confirm', 'Waiting Approval'),
         ('done', 'Submitted')], default='new', track_visibility='onchange',
         string='Status', required=True, readonly=True, index=True,
         help=' * The \'Open\' status is used when a user is encoding a new and unconfirmed timesheet. '
