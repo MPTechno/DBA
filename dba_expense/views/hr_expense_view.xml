@@ -12,10 +12,6 @@
         		<field name="paid_by" groups="dba_ar_modify.group_accountant_dba" attrs="{'readonly':[('submit_to_accountant','=',True)]}"/> 
         		<field name="cheque_no" attrs="{'invisible': [('paid_by', '=','Cash')],'readonly':[('submit_to_accountant','=',True)]}" groups="dba_ar_modify.group_accountant_dba"/> 
         	</field>
-        	<field name="tax_ids" position="attributes">
-        	    <attribute name="groups"></attribute>
-        	    <attribute name="readonly">[('submit_to_accountant','=',True)]</attribute>
-        	</field>
         
         	<field name="tax_ids" position="after">
         		<field name="pc_no" groups="dba_ar_modify.group_accountant_dba" attrs="{'readonly':[('submit_to_accountant','=',True)]}"/> 
@@ -41,7 +37,7 @@
         		<field name="unit_amount" required="1" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
         	</field>
 			<field name="tax_ids" position="replace">
-        		<field name="tax_ids" domain="[('type_tax_use', '=', 'purchase')]" widget="many2many_tags" groups="base.group_no_one" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
+        		<field name="tax_ids" domain="[('type_tax_use', '=', 'purchase')]" widget="many2many_tags" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
         	</field>
 			<field name="reference" position="replace">
         		<field name="reference" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
