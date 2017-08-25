@@ -10,6 +10,11 @@ class ir_ui_menu(models.Model):
         print "\n\n\n*****current user id",self.env.uid
         menus_for_sub_admin = [
             'account.menu_finance',
+            'sale.menu_sale_invoicing',#Sales/Invoicing
+            'sales_team.menu_sale_report',#Sales/Reports
+            'hr.menu_hr_root',#Employee
+            'sale.prod_config_main',#Sales/Configuration/Products
+            'sale.menu_product_template_action',#Sales/Sales/Products
         ]
         menus_for_sub_admin2 = [
         	'mail.mail_channel_menu_root_chat',
