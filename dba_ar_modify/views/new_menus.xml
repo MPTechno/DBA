@@ -35,6 +35,12 @@
         parent="my_timesheet_two" 
         sequence="2" 
         groups="group_user_dba,group_manager_dba,group_sub_admin2_dba"/>
+    <menuitem id="my_timesheet_four" 
+        name="My Timesheets" 
+        action="hr_timesheet_sheet.act_hr_timesheet_sheet_my_timesheets" 
+        parent="my_timesheet_two" 
+        sequence="2" 
+        groups="group_user_dba,group_manager_dba,group_sub_admin2_dba"/>
     
     <!--Expense/my ex-->
     <menuitem name="Expenses" 
