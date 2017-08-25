@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-	<data>
 
     <!--- sales/project code-->
     <menuitem id="menu_sales_project_code" 
@@ -63,5 +62,45 @@
                 <field name="balance" position="replace"/>
             </field>
     </record>
-	</data>
+    <!--Override the timesheet action-->
+    <record id="hr_timesheet_sheet.act_hr_timesheet_sheet_my_timesheets" model="ir.actions.act_window">
+        <field name="name">My Timesheets</field>
+        <field name="res_model">hr_timesheet_sheet.sheet</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="hr_timesheet_sheet.view_hr_timesheet_sheet_filter"/>
+        <field name="context">{'search_default_my_timesheets': 1}</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            new timesheet.
+          </p><p>
+            You must record timesheets every day and confirm at the end
+            of the week. Once the timesheet is confirmed, it should be
+            validated by a manager.
+          </p><p>
+            Timesheets can also be invoiced to customers, depending on the
+            configuration of each project's related contract.
+          </p>
+        </field>
+    </record>
+    <!--Override the timesheet search view-->
+    <record id="hr_timesheet_sheet.view_hr_timesheet_sheet_filter" model="ir.ui.view">
+            <field name="name">hr_timesheet_sheet.sheet.filter</field>
+            <field name="model">hr_timesheet_sheet.sheet</field>
+            <field name="arch" type="xml">
+                <search string="Search Timesheet">
+                    <field name="date_from"/>
+                    <filter name="new" string="In Draft" domain="[('state','in',('draft', 'new'))]" help="Unvalidated Timesheets"/>
+                    <filter name="to_approve" string="To Approve" domain="[('state','=','confirm')]" help="Confirmed Timesheets"/>
+                    <filter string="Unread Messages" name="message_needaction" domain="[('message_needaction','=',True)]"/>
+                    <field name="employee_id"/>
+                    <field name="department_id"/>
+                    <filter name="my_timesheets" string="My Timesheets" domain="[('employee_id.user_id', '=', uid)]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Employees" domain="[]" context="{'group_by':'employee_id'}"/>
+                        <filter string="Department" domain="[]" context="{'group_by':'department_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
 </odoo>
