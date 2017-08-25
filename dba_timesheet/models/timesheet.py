@@ -30,7 +30,12 @@ class TimeSheetExt(models.Model):
     
     def action_timesheet_done(self):
         return self.write({'state':'done'})
-        
+    
+    def _get_project_code(self):
+        for obj in self:
+            project_codes = ",".join(line.account_id.name for line in obj.timesheet_ids)
+            obj.project_codes = project_codes
+    project_codes = fields.Char(compute=_get_project_code,string="Project Code")
     def cron_remind_timesheet_submission(self):
         user_obj = self.env['res.users']
         notification_obj = self.env['timesheet.notification.config']
