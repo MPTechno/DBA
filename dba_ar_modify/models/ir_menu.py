@@ -15,9 +15,11 @@ class ir_ui_menu(models.Model):
             'hr.menu_hr_root',#Employee
             'sale.prod_config_main',#Sales/Configuration/Products
             'sale.menu_product_template_action',#Sales/Sales/Products
+            'calendar.mail_menu_calendar',#Calendar
+            'mail.mail_channel_menu_root_chat',#Discuss
         ]
         menus_for_sub_admin2 = [
-        	'mail.mail_channel_menu_root_chat',
+        	'mail.mail_channel_menu_root_chat',#Discuss
         	'calendar.mail_menu_calendar',
         	'utm.menu_link_tracker_root',
             'sales_team.menu_base_partner',
@@ -27,9 +29,10 @@ class ir_ui_menu(models.Model):
             'hr_expense.menu_hr_expense_root',
             'base.menu_management',
             'base.menu_administration',
+            'calendar.mail_menu_calendar',#Calendar
         ]
         menus_for_user = [
-            'mail.mail_channel_menu_root_chat',
+            'mail.mail_channel_menu_root_chat',#Discuss
         	'calendar.mail_menu_calendar',
         	'utm.menu_link_tracker_root',
             'sales_team.menu_base_partner',
@@ -40,6 +43,7 @@ class ir_ui_menu(models.Model):
             'hr_expense.menu_hr_expense_root',
             'base.menu_management',
             'base.menu_administration',
+            'calendar.mail_menu_calendar',#Calendar
         ]
         menus_for_manager = [
             'mail.mail_channel_menu_root_chat',
@@ -52,6 +56,8 @@ class ir_ui_menu(models.Model):
             'hr_expense.menu_hr_expense_root',
             'base.menu_management',
             'base.menu_administration',
+            'calendar.mail_menu_calendar',#Calendar
+            'mail.mail_channel_menu_root_chat',#Discuss
         ]
         dba_user_id = self.env['ir.model.data'].get_object_reference('dba_ar_modify', 'group_user_dba')[1]
         dba_manager_id = self.env['ir.model.data'].get_object_reference('dba_ar_modify', 'group_manager_dba')[1]
