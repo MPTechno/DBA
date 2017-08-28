@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!--Chnage Product string to Expense Term-->
+    <!--Chnage expense form-->
 	<record id="hr_expense_hr_expense_form_view_dba" model="ir.ui.view">
         <field name="name">hr_expense.form.view.extended</field>
         <field name="model">hr.expense</field>
         <field name="inherit_id" ref="hr_expense.hr_expense_form_view"/>
         <field name="arch" type="xml">
         	<field name="company_id" position="after">
-        		<field name="manager_id" groups="dba_ar_modify.group_accountant_dba" attrs="{'readonly':[('submit_to_accountant','=',True)]}"/>
+        		<field name="manager_id" groups="dba_ar_modify.group_accountant_dba" />
         		<field name="submit_to_accountant"/>
-        		<field name="paid_by" groups="dba_ar_modify.group_accountant_dba" attrs="{'readonly':[('submit_to_accountant','=',True)]}"/> 
-        		<field name="cheque_no" attrs="{'invisible': [('paid_by', '=','Cash')],'readonly':[('submit_to_accountant','=',True)]}" groups="dba_ar_modify.group_accountant_dba"/> 
+        		<field name="paid_by" groups="dba_ar_modify.group_accountant_dba"/> 
+        		<field name="cheque_no" attrs="{'invisible': [('paid_by', '=','Cash')]}" groups="dba_ar_modify.group_accountant_dba"/> 
         	</field>
         
         	<field name="tax_ids" position="after">
-        		<field name="pc_no" groups="dba_ar_modify.group_accountant_dba" attrs="{'readonly':[('submit_to_accountant','=',True)]}"/> 
+        		<field name="pc_no" groups="dba_ar_modify.group_accountant_dba"/> 
         	</field>
         	<button name="submit_expenses" position="attributes">
         	    <attribute name="groups">dba_ar_modify.group_accountant_dba</attribute>
@@ -22,64 +22,97 @@
         	</button>
         	<xpath expr='//form/header/button[@name="submit_expenses"]' position='after'>
         		<button name="submit_to_account" string="Submit" 
-        		type="object" class="oe_highlight o_expense_submit"
-        		attrs="{'invisible':[('submit_to_accountant','=',True)]}"/>
+        		type="object" class="oe_highlight o_expense_submit"/>
         	</xpath>
         	<field name="product_uom_id" position="replace">
         	    <br/>
-        		<field name="product_uom_id" widget="selection" class="oe_inline" groups="product.group_uom" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
+        		<field name="product_uom_id" widget="selection" class="oe_inline" groups="product.group_uom"/>
         	</field>
 
 			<field name="product_id" position="replace">
-        		<field name="product_id" context="{'default_can_be_expensed': 1}" attrs="{'readonly': [('submit_to_accountant', '=', True)]}" string="Expense Item"/>
-        	</field>
-			<field name="unit_amount" position="replace">
-        		<field name="unit_amount" required="1" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
-        	</field>
-			<field name="tax_ids" position="replace">
-        		<field name="tax_ids" domain="[('type_tax_use', '=', 'purchase')]" widget="many2many_tags" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
-        	</field>
-			<field name="reference" position="replace">
-        		<field name="reference" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
-        	</field>
-			<field name="date" position="replace">
-        		<field name="date" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
+        		<field name="product_id" context="{'default_can_be_expensed': 1}" string="Expense Item"/>
         	</field>
 			<field name="account_id" position="replace">
         		<field name="account_id" 
-        		        attrs="{'readonly': [('submit_to_accountant', '=', True)]}" 
-        	 groups="dba_ar_modify.group_manager_dba,dba_ar_modify.group_accountant_dba"/>
+        		        groups="dba_ar_modify.group_manager_dba,dba_ar_modify.group_accountant_dba"/>
         	</field>
 			<field name="employee_id" position="attributes">
         		<attribute name="readonly">1</attribute>
         	</field>
-			<field name="sheet_id" position="replace">
-        		<field name="sheet_id" invisible="1" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
-        	</field>
-			<field name="currency_id" position="replace">
-        		<field name="currency_id" attrs="{'readonly': [('submit_to_accountant', '=', True)]}" groups="base.group_multi_currency"/>
-        	</field>
 			<field name="analytic_account_id" position="replace">
-        		<field name="analytic_account_id" attrs="{'readonly': [('submit_to_accountant', '=', True)]}" groups="analytic.group_analytic_accounting" string="Project Code"/>
-        	</field>
-			<field name="company_id" position="replace">
-        		<field name="company_id" attrs="{'readonly': [('submit_to_accountant', '=', True)]}" groups="base.group_multi_company"/>
-        	</field>
-        	<field name="quantity" position="replace">
-        	    <field name="quantity" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
-        	</field>
-        	<field name="payment_mode" position="replace">
-        	    <field name="payment_mode" widget="radio" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
-        	</field>
-        	<field name="description" position="replace">
-        	    <field name="description" placeholder="Notes..." attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
-        	</field>
-        	<field name="name" position="replace">
-        	    <field name="name" placeholder="e.g. Lunch with Customer" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
+        		<field name="analytic_account_id" groups="analytic.group_analytic_accounting" string="Project Code"/>
         	</field>
 		</field>
     </record>
-    
+    <!--Added form for non admin users for readonly record of expense once submited-->
+    <record id="hr_expense_form_view_dba_ar_modify" model="ir.ui.view">
+        <field name="name">hr_expense.form.dba_ar_modify</field>
+        <field name="model">hr.expense</field>
+        <field name="inherit_id" ref="hr_expense_hr_expense_form_view_dba"/>
+        <field name="groups_id" eval="[(4, ref('dba_ar_modify.group_user_dba')),(4, ref('dba_ar_modify.group_manager_dba')),(4, ref('dba_ar_modify.group_sub_admin2_dba')),(4, ref('dba_ar_modify.group_sub_admin_dba'))]"/>
+        <field name="arch" type="xml">
+            <field name="name" position="attributes">
+                <attribute name="attrs">{'readonly': [('submit_to_accountant', '=', True)]}</attribute>
+            </field>
+            <field name="description" position="attributes">
+                <attribute name="attrs">{'readonly': [('submit_to_accountant', '=', True)]}</attribute>
+            </field>
+            <field name="payment_mode" position="attributes">
+                <attribute name="attrs">{'readonly': [('submit_to_accountant', '=', True)]}</attribute>
+            </field>
+            <field name="quantity" position="attributes">
+                <attribute name="attrs">{'readonly': [('submit_to_accountant', '=', True)]}</attribute>
+            </field>
+            <field name="company_id" position="attributes">
+                <attribute name="attrs">{'readonly': [('submit_to_accountant', '=', True)]}</attribute>
+            </field>
+            <field name="analytic_account_id" position="attributes">
+                <attribute name="attrs">{'readonly': [('submit_to_accountant', '=', True)]}</attribute>
+            </field>
+            <field name="currency_id" position="attributes">
+                <attribute name="attrs">{'readonly': [('submit_to_accountant', '=', True)]}</attribute>
+            </field>
+            <field name="sheet_id" position="attributes">
+                <attribute name="attrs">{'readonly': [('submit_to_accountant', '=', True)]}</attribute>
+            </field>
+            <field name="account_id" position="attributes">
+                <attribute name="attrs">{'readonly': [('submit_to_accountant', '=', True)]}</attribute>
+            </field>
+            <field name="date" position="attributes">
+                <attribute name="attrs">{'readonly': [('submit_to_accountant', '=', True)]}</attribute>
+            </field>
+            <field name="reference" position="attributes">
+                <attribute name="attrs">{'readonly': [('submit_to_accountant', '=', True)]}</attribute>
+            </field>
+            <field name="tax_ids" position="attributes">
+                <attribute name="attrs">{'readonly': [('submit_to_accountant', '=', True)]}</attribute>
+            </field>
+            <field name="unit_amount" position="attributes">
+                <attribute name="attrs">{'readonly': [('submit_to_accountant', '=', True)]}</attribute>
+            </field>
+            <field name="product_id"  position="attributes">
+                <attribute name="attrs">{'readonly': [('submit_to_accountant', '=', True)]}</attribute>
+            </field>
+            <field name="product_uom_id" position="attributes">
+                <attribute name="attrs">{'readonly': [('submit_to_accountant', '=', True)]}</attribute>
+            </field>
+            <button name="submit_to_account" position="attributes">
+                <attribute name="attrs">{'readonly': [('submit_to_accountant', '=', True)]}</attribute>
+            </button>
+            <field name="pc_no" position="attributes">
+                <attribute name="attrs">{'readonly': [('submit_to_accountant', '=', True)]}</attribute>
+            </field>
+            <field name="cheque_no" position="attributes">
+                <attribute name="attrs">{'readonly': [('submit_to_accountant', '=', True)]}</attribute>
+            </field>
+            <field name="manager_id" position="attributes">
+                <attribute name="attrs">{'readonly': [('submit_to_accountant', '=', True)]}</attribute>
+            </field>
+            <field name="paid_by" position="attributes">
+                <attribute name="attrs">{'readonly': [('submit_to_accountant', '=', True)]}</attribute>
+            </field>
+        </field>
+    </record>  
     <record id="hr_expense_submit_to_account" model="ir.actions.act_window">
             <field name="name">To be Approve by Accountant</field>
             <field name="res_model">hr.expense</field>
