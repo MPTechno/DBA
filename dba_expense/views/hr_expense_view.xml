@@ -50,8 +50,8 @@
         		        attrs="{'readonly': [('submit_to_accountant', '=', True)]}" 
         	 groups="dba_ar_modify.group_manager_dba,dba_ar_modify.group_accountant_dba"/>
         	</field>
-			<field name="employee_id" position="replace">
-        		<field name="employee_id" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
+			<field name="employee_id" position="attributes">
+        		<attribute name="readonly">1</attribute>
         	</field>
 			<field name="sheet_id" position="replace">
         		<field name="sheet_id" invisible="1" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
