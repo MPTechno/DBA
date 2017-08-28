@@ -55,6 +55,15 @@
         action="hr_expense.hr_expense_actions_my_unsubmitted" 
         parent="my_expenses_two" 
         groups="group_user_dba,group_manager_dba,group_sub_admin2_dba"/>
+    <menuitem id="my_expenses_four" 
+        name="To Approve" 
+        parent="menu_expenses_one"
+        groups="group_manager_dba"/>
+    <menuitem id="my_expenses_five" 
+        name="Expenses Reports to Approve" 
+        action="hr_expense.action_hr_expense_sheet_all_to_approve" 
+        parent="my_expenses_four" 
+        groups="group_manager_dba"/>
         
     <!--Inherited analytic accounts list view for the dba_ar_modify user-->
     <record id="inherit_view_account_analytic_account_tree_for_dba_user" model="ir.ui.view">
@@ -120,5 +129,4 @@
                 </xpath>
             </field>
         </record>
-        
 </odoo>
