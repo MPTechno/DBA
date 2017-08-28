@@ -109,4 +109,16 @@
                 </search>
             </field>
         </record>
+    <!--Inherit the analytic form-->
+        <record id="view_account_analytic_account_dba_form_ext" model="ir.ui.view">
+            <field name="name">account.analytic.account.dba.1</field>
+            <field name="model">account.analytic.account</field>
+            <field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/div[@name='button_box']/button[@icon='fa-usd']" position="attributes">
+                    <attribute name="groups">dba_ar_modify.group_accountant_dba,dba_ar_modify.group_manager_dba</attribute>
+                </xpath>
+            </field>
+        </record>
+        
 </odoo>
