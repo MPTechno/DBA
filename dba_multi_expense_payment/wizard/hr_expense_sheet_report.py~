@@ -1,0 +1,18 @@
+from odoo import fields, models
+
+class ExpenseSheetReport(models.TransientModel):
+    _name = 'expense.sheet.report'
+    
+    def print_report(self):
+        self.ensure_one()
+        data = {}
+        data['ids'] = self.env.context.get('active_ids', [])
+        data['model'] = self.env.context.get('active_model', 'ir.ui.menu')
+        print "\n\n\ndata",data
+        hr_expense_sheet = self.env[str(data['active_model'])]
+        report_data = hr_expense_sheet.browse(data['active_ids'])
+        #for obj in report_data:
+            
+        return self.env['report'].get_action(self, 'dba_multi_expese_report.expense_sheet_report',data=data)
+    
+    
