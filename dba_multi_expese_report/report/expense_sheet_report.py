@@ -12,8 +12,8 @@ class expense_sheet_report_dba(models.AbstractModel):
         expense_objs = self.env['hr.expense.sheet'].browse(data.get('ids'))
         result = []
         for expense_obj in expense_objs:
-            if expense_obj.expense_line_ids:
-                result.append(expense_obj.expense_line_ids)
+            for expense in expense_obj.expense_line_ids:
+                result.append(expense)
         return result
     
     @api.multi
@@ -47,9 +47,8 @@ class expense_sheet_report_dba(models.AbstractModel):
         expense_objs = self.env['hr.expense.sheet'].browse(data.get('ids'))
         result = []
         for expense_obj in expense_objs:
-            for line in expense_obj.expense_line_ids:
-                if line.pc_no and str(line.pc_no) not in result:
-                    result.append(str(line.pc_no))
+            if expense_obj.pc_no and str(expense_obj.pc_no) not in result:
+                result.append(str(expense_obj.pc_no))
         result = str(result).replace("['",'').replace("[",'').replace("']",'').replace("]",'').replace("'",'')
         return result
 

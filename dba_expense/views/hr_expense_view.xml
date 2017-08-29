@@ -12,10 +12,6 @@
         		<field name="paid_by" groups="dba_ar_modify.group_accountant_dba"/> 
         		<field name="cheque_no" attrs="{'invisible': [('paid_by', '=','Cash')]}" groups="dba_ar_modify.group_accountant_dba"/> 
         	</field>
-        
-        	<field name="tax_ids" position="after">
-        		<field name="pc_no" groups="dba_ar_modify.group_accountant_dba"/> 
-        	</field>
         	<button name="submit_expenses" position="attributes">
         	    <attribute name="groups">dba_ar_modify.group_accountant_dba</attribute>
         	    <attribute name="string">Submit To Approver</attribute>
@@ -205,6 +201,28 @@ if records:
                     <separator />
                     <filter domain="[('employee_id.active', '=', False)]" string="Former Employees" name="inactive" groups="hr_expense.group_hr_expense_user,hr_expense.group_hr_expense_manager"/>
                 </search>
+            </field>
+        </record>
+        <!--Inherit the payment wizard to change the string from "Memo" to "PC#"-->
+        <record id="hr_expense_payment_wiz_form_view_dba" model="ir.ui.view">
+            <field name="name">hr.expense.register.payment.wizard.form.extended</field>
+            <field name="model">hr.expense.register.payment.wizard</field>
+            <field name="inherit_id" ref="hr_expense.hr_expense_register_payment_view_form"/>
+            <field name="arch" type="xml">
+                <field name="communication" position="attributes">
+                    <attribute name="string">PC#</attribute>
+                </field>
+            </field>
+        </record>
+        <!--Inherit hr expese sheet form view-->
+        <record id="view_hr_expense_sheet_form_ext_dba" model="ir.ui.view">
+            <field name="name">hr.expense.sheet.form.extended</field>
+            <field name="model">hr.expense.sheet</field>
+            <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_form"/>
+            <field name="arch" type="xml">
+                <field name="accounting_date" position="after">
+                    <field name="pc_no" invisible="1"/>
+                </field>
             </field>
         </record>
         
