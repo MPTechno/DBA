@@ -33,7 +33,7 @@ class TimeSheetExt(models.Model):
     
     def _get_project_code(self):
         for obj in self:
-            project_codes = ",".join(line.account_id.name for line in obj.timesheet_ids)
+            project_codes = ",".join(set(line.account_id.name for line in obj.timesheet_ids))
             obj.project_codes = project_codes
     project_codes = fields.Char(compute=_get_project_code,string="Project Code")
     def cron_remind_timesheet_submission(self):
