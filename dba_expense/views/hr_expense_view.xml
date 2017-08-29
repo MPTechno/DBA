@@ -95,9 +95,6 @@
             <button name="submit_to_account" position="attributes">
                 <attribute name="attrs">{'readonly': [('submit_to_accountant', '=', True)]}</attribute>
             </button>
-            <field name="pc_no" position="attributes">
-                <attribute name="attrs">{'readonly': [('submit_to_accountant', '=', True)]}</attribute>
-            </field>
             <field name="cheque_no" position="attributes">
                 <attribute name="attrs">{'readonly': [('submit_to_accountant', '=', True)]}</attribute>
             </field>
