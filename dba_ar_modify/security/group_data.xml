@@ -36,8 +36,8 @@
     <record id="timesheet_comp_rule_user_wise" model="ir.rule">
         <field name="name">hr_timesheet_sheet.sheet</field>
         <field name="model_id" search="[('model','=','hr_timesheet_sheet.sheet')]" model="ir.model"/>
-        <field name="global" eval="True"/>
         <field name="domain_force">[('employee_id.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('dba_ar_modify.group_user_dba')), (4, ref('dba_ar_modify.group_sub_admin2_dba')), (4, ref('dba_ar_modify.group_sub_admin_dba'))]"/>
     </record>
 
 </odoo>
