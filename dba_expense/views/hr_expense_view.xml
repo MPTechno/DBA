@@ -24,7 +24,9 @@
         	    <br/>
         		<field name="product_uom_id" widget="selection" class="oe_inline" groups="product.group_uom"/>
         	</field>
-
+        	<field name="tax_ids" position="replace">
+                <field name="tax_ids" domain="[('type_tax_use', '=', 'purchase')]" widget="many2many_tags" />
+            </field>
 			<field name="product_id" position="replace">
         		<field name="product_id" context="{'default_can_be_expensed': 1}" string="Expense Item"/>
         	</field>
