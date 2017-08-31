@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="1">
+    <data>
 
         <record id="property_rule_expense_all_users" model="ir.rule">
             <field name="name">Expenses Per Employee</field>
