@@ -19,14 +19,37 @@ class AccountAnalyticLine(models.Model):
 
     @api.model
     def compute_default_journal_id(self):
+        journal_id = False
         context = self.env.context
-        employee_obj = self.env['hr.employee']
-        employees = employee_obj.search([('user_id', '=', context.get('user_id') or self.env.uid)])
-        if employees:
-            for employee in employees:
-                if employee.journal_id:
-                    return employee.journal_id
-        return False
+        invoice = context.get('invoice', False)
+        if invoice and invoice.id:
+            origin = invoice.origin
+            sale = self.env['sale.order'].search([
+                ('name', '=', origin)
+            ], limit=1)
+            if sale and sale.id:
+                journal_id = self.env.ref('hr_timesheet_invoice.sale_journal')
+        if not journal_id:
+            active_model = context.get('active_model')
+            if active_model == 'hr.expense':
+                journal_id = self.env.ref('hr_timesheet_invoice.expense_journal')
+        if not journal_id:
+            ju = context.get('invoice')
+            if ju:
+                pu = self.env['account.invoice'].search([('id', '=', ju.id)], limit=1)
+                if pu and pu.id:
+                    if context.get('journal_type') == 'sale':
+                        journal_id = self.env['account.journal'].search([('name', '=', 'Customer Invoices')]).id
+                    if context.get('journal_type') == 'purchase':
+                        journal_id = self.env['account.journal'].search([('name', '=', 'Vendor Bills')]).id
+        if not journal_id:
+            employee_obj = self.env['hr.employee']
+            employees = employee_obj.search([('user_id', '=', context.get('user_id') or self.env.uid)])
+            if employees:
+                for employee in employees:
+                    if employee.journal_id:
+                        journal_id = employee.journal_id
+        return journal_id
 
     journal_id         = fields.Many2one('account.journal', 'Journal', default=compute_default_journal_id)
     product_id         = fields.Many2one('product.product', 'Product', default=compute_default_product_id)
