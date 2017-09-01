@@ -3,6 +3,7 @@
         <act_window id="action_expense_sheet_paymant_multi"
             multi="True"
             key2="client_action_multi" name="Register Payment"
+            groups="account.group_account_user"
             res_model="hr.expense.register.payment.wizard" src_model="hr.expense.sheet"
             view_mode="form" target="new" view_type="form"/>
 
