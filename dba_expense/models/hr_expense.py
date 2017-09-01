@@ -145,7 +145,7 @@ class hr_expense(models.Model):
             url = str(self._cr.fetchone()[0])
             action_obj = self.env['ir.actions.act_window'].search([('name','=','Expense Reports to Approve'),
                                         ('res_model','=','hr.expense.sheet')])
-            url+= '/web#view_type=%s&model=%s&action=%s'%('list','hr.expense.sheet',action_obj.id)
+            url+= '/web#view_type=%s&model=%s&action=%s'%('list','hr.expense.sheet',action_obj[0].id)
             self._cr.execute('select id from ir_module_category where name=%s',('DBA AR Modify',))
             category_id = self._cr.fetchone()
             group_id = res_groups.search([('name','=','Manager'),('category_id','=',category_id[0])])
@@ -207,7 +207,7 @@ class HrExpenseRegisterPaymentWizardExt(models.TransientModel):
                     account_move_lines_to_reconcile |= line
             account_move_lines_to_reconcile.reconcile()
             #Set PC# in hr.expense.sheet object
-            expense_sheet.write({'pc_no':self.communication})
+            res = expense_sheet.write({'pc_no':self.communication})
         return {'type': 'ir.actions.act_window_close'}
 class HrExpenseConfigSettingsExt(models.TransientModel):
     _inherit = 'hr.expense.config.settings'
