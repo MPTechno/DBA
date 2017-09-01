@@ -32,5 +32,34 @@
             <field name="view_id" ref="view_apply_approver_wizard"/>
             <field name="target">new</field>
         </record>
+        
+        <act_window id="action_for_multiple_journal_entry"
+            multi="True"
+            key2="client_action_multi" name="Post Journal Entries"
+            res_model="expense.pj.wizard" src_model="hr.expense.sheet"
+            view_mode="form" target="new" view_type="form"/>
+            
+        <record id="view_pje_wizard" model="ir.ui.view">
+            <field name="name">expense.pj.wizard.form</field>
+            <field name="model">expense.pj.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Post Journal Entries">
+                    <footer>
+                       <button name="postJournalEntries" string="Post Journal Entries" type="object" class="oe_highlight"/>
+                       <button string="Close" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_expsense_pje" model="ir.actions.act_window">
+            <field name="name">Post Journal Entries</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">expense.pj.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_pje_wizard"/>
+            <field name="target">new</field>
+        </record>
 
 </odoo>
