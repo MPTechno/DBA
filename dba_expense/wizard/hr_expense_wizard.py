@@ -20,5 +20,15 @@ class ExpensePostJournalEntryWizard(models.TransientModel):
         for sheet_obj in self.env['hr.expense.sheet'].browse(expense_sheet_ids):
             sheet_obj.action_sheet_move_create()
         return True
+        
+class ExpenseApproveByManagerWizard(models.TransientModel):
+    _name = 'expense.approve.byman.wizard'
+    
+    @api.multi
+    def approveExpenseSheet(self):
+        expense_sheet_ids = self.env.context.get('active_ids')
+        for sheet_obj in self.env['hr.expense.sheet'].browse(expense_sheet_ids):
+            sheet_obj.approve_expense_sheets()
+        return True
     
     
