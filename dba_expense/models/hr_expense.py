@@ -12,7 +12,7 @@ class hr_expense(models.Model):
     cheque_no = fields.Char('Cheque No')
     manager_id = fields.Many2one('hr.employee','Approver')
     submit_to_accountant = fields.Boolean('Submitted',readonly=True)
-    
+    billable = fields.Selection([('yes','Billable'),('no','Non-Billable')],'Bill Type',default='yes')
     
     @api.multi
     def write(self, values):

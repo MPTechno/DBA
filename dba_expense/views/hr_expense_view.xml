@@ -40,6 +40,9 @@
 			<field name="analytic_account_id" position="replace">
         		<field name="analytic_account_id" groups="analytic.group_analytic_accounting" string="Project Code"/>
         	</field>
+        	<field name="total_amount" position="before">
+        	    <field name="billable" attrs="{'readonly': [('submit_to_accountant', '=', True)]}"/>
+        	</field>
 		</field>
     </record>
     <!--Added form for non admin users for readonly record of expense once submited-->
@@ -121,6 +124,9 @@
         	<xpath expr='//field[@name="analytic_account_id"]' position='attributes'>
         		<attribute name="string">Project Code</attribute>
         	</xpath>
+        	<field name="state" position="after">
+        	    <field name="billable"/>
+        	</field>
 		</field>
     </record>
     
@@ -180,6 +186,8 @@ if records:
                     <filter domain="[('state', '=', 'reported')]" string="Reported" name="submitted" help="Confirmed Expenses"/>
                     <filter domain="[('state', '=', 'refused')]" string="Refused" name="refused" help="Refused Expenses"/>
                     <filter domain="[('state', '!=', 'cancel')]" string="Not Refused" name="uncancelled" help="Actual expense sheets, not the refused ones"/>
+                    <filter domain="[('billable', '=', 'yes')]" string="Billable" name="billable" help="Used for Billable"/>
+                    <filter domain="[('billable', '=', 'no')]" string="Non-Billable" name="non_billable" help="Used for Non-Billable"/>
                     <separator />
                     <filter string="My Team Expenses" domain="[('employee_id.parent_id.user_id', '=', uid)]" groups="hr_expense.group_hr_expense_manager" help="Expenses of Your Team Member"/>
                     <filter name="my_expenses" string="My Expenses" domain="[('employee_id.user_id', '=', uid)]"/>
@@ -194,6 +202,7 @@ if records:
                         <filter string="Analytic Account" domain="[]" context="{'group_by': 'analytic_account_id'}" groups="analytic.group_analytic_accounting"/>
                         <filter string="Expenses Month" domain="[]" context="{'group_by': 'date'}" help="Expenses by Month"/>
                         <filter string="Status" domain="[]" context="{'group_by': 'state'}"/>
+                        <filter string="Bill Type" domain="[]" context="{'group_by': 'billable'}"/>
                     </group>
                     <separator />
                     <filter domain="[('employee_id.active', '=', False)]" string="Former Employees" name="inactive" groups="hr_expense.group_hr_expense_user,hr_expense.group_hr_expense_manager"/>
