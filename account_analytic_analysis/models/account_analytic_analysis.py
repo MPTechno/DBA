@@ -506,7 +506,7 @@ class account_analytic_account(models.Model):
     recurring_interval = fields.Integer('Repeat Every', help="Repeat every (Days/Week/Month/Year)")
     recurring_next_date = fields.Date('Date of Next Invoice')
     description = fields.Text('Description')
-    use_timesheets = fields.Boolean('Timesheets', help="Check this field if this project manages timesheets")
+    use_timesheets = fields.Boolean('Timesheets', help="Check this field if this project manages timesheets",default=True)
     date_end = fields.Datetime('Expiration Date')
     manager_id = fields.Many2one('res.users', string='Account Manager')
     
