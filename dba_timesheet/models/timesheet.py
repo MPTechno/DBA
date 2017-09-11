@@ -27,6 +27,13 @@ class TimeSheetExt(models.Model):
         help=' * The \'Open\' status is used when a user is encoding a new and unconfirmed timesheet. '
              '\n* The \'Waiting Approval\' status is used to confirm the timesheet by user. '
              '\n* The \'Approved\' status is used when the users timesheet is accepted by his/her senior.')
+    def _check_accountant(self):
+        if not self.env.user.has_group('dba_ar_modify.group_accountant_dba'):
+            return False
+        else:
+            return True
+        
+    is_accountant = fields.Boolean(string='Admin?',default=_check_accountant)
     
     def action_timesheet_done(self):
         return self.write({'state':'done'})

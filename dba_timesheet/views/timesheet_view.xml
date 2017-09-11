@@ -19,6 +19,12 @@
         	<field name="state" position="replace">
         	    <field name="state" widget="statusbar" statusbar_visible="new,confirm,done"/>
         	</field>
+        	<field name="user_id" position="after">
+        	    <field name="is_accountant" invisible="1"/>
+        	</field>
+        	<field name="employee_id" position="attributes">
+        	    <attribute name="attrs">{'readonly': [('is_accountant', '=', False)]}</attribute>
+        	</field>
         </field>
     </record>
     <!--Inherits the Timesheet tree view-->
