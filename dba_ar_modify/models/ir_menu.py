@@ -17,6 +17,7 @@ class ir_ui_menu(models.Model):
             'sale.menu_product_template_action',#Sales/Sales/Products
             'calendar.mail_menu_calendar',#Calendar
             'mail.mail_channel_menu_root_chat',#Discuss
+            'hr_timesheet.menu_hr_working_hours',#Detailed Activities
         ]
         menus_for_sub_admin2 = [
         	'mail.mail_channel_menu_root_chat',#Discuss
