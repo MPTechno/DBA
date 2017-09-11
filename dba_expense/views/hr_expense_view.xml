@@ -229,6 +229,9 @@ if records:
                 <field name="accounting_date" position="after">
                     <field name="pc_no" invisible="1"/>
                 </field>
+                <xpath expr="//form/sheet/field[@name='expense_line_ids']/tree/field[@name='total_amount']" position="after">
+                    <field name="billable" groups="dba_ar_modify.group_manager_dba,dba_ar_modify.group_accountant_dba" />
+                </xpath>
             </field>
         </record>
         
