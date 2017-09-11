@@ -41,6 +41,18 @@
         parent="my_timesheet_two" 
         sequence="2" 
         groups="group_user_dba,group_manager_dba,group_sub_admin2_dba"/>
+    <menuitem id="my_timesheet_five" 
+        name="Reports" 
+        parent="menu_timesheets_root_one" 
+        sequence="2"  
+        groups="group_manager_dba"/>
+    <menuitem id="my_timesheet_six" 
+        name="Activity Analysis" 
+        action="hr_timesheet.act_hr_timesheet_report" 
+        parent="my_timesheet_five" 
+        sequence="2" 
+        groups="group_manager_dba"/>  
+    
     
     <!--Expense/my ex-->
     <menuitem name="Expenses" 
