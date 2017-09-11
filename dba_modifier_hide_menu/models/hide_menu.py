@@ -12,7 +12,7 @@ class ir_ui_menu(models.Model):
             'account.menu_finance_entries',
             'account.menu_finance_reports',
             'stock.menu_stock_root',
-            'account.menu_finance_configuration',
+            #'account.menu_finance_configuration',
             'sale.menu_sale_order',
             'crm.menu_crm_leads',
         ]
