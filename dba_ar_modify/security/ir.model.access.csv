@@ -7,4 +7,6 @@ access_group_manager_dba,manager_dba,analytic.model_account_analytic_account,dba
 access_group_user_ana_ln,ana_ln,account_analytic_analysis.model_account_analytic_invoice_line,dba_ar_modify.group_user_dba,1,0,0,0
 access_group_manager_ana_ln,ana_ln_mng,account_analytic_analysis.model_account_analytic_invoice_line,dba_ar_modify.group_manager_dba,1,0,0,0
 
+access_code_seven_sa,access_code_seven_sa,hr_timesheet_invoice.model_code_seven,dba_ar_modify.group_sub_admin_dba,1,1,1,1
+
 
