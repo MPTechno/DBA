@@ -17,11 +17,13 @@
 	            <t t-call="report.external_layout_expense_sheet_report">
 	                <div class="page">
 	                    <h2>Expenses Report</h2>
+	                    
 						<table class="table table-condensed">
 		                    <div class="row mt32 mb32">
-		                        <div class="col-xs-2">
-		                            <strong>Employee:</strong>
-		                            <p t-esc="get_employee_name(data)"/>
+		                        <div class="col-xs-6">
+		                            <strong>Employee: </strong><span t-esc="get_employee_name(data)"/>
+		                            <br/>
+		                            <span t-esc="get_months(data)"/>
 		                        </div>
 		                    </div>
 						   <thead>
