@@ -124,6 +124,9 @@
         	<xpath expr='//field[@name="analytic_account_id"]' position='attributes'>
         		<attribute name="string">Project Code</attribute>
         	</xpath>
+        	<xpath expr='//field[@name="analytic_account_id"]' position='after'>
+        		<field name="reference"/>
+        	</xpath>
         	<field name="state" position="after">
         	    <field name="billable"/>
         	</field>
