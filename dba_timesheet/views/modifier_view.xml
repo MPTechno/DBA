@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- Hide create edit button for "DBA AR Modify- User" only-->
+	<record id="dba_user_hide_create_edit_analytic_account" model="ir.ui.view">
+        <field name="name">dba.user.hide.create.edit.account.analytic.account</field>
+        <field name="model">account.analytic.account</field>
+        <field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>
+        <field name="groups_id" eval="[(4, ref('dba_ar_modify.group_user_dba'))]"/>
+        <field name="arch" type="xml">
+        	<xpath expr='//form' position="attributes">
+				<attribute name="edit">false</attribute>
+				<attribute name="create">false</attribute>
+			</xpath>
+        </field>
+    </record>
+
+    <!-- Readonly Details tab in timesheet  for "DBA AR Modify- User" only-->
+	<record id="dba_user_readonly_hr_timesheet_sheet_sheet" model="ir.ui.view">
+        <field name="name">dba.user.readonly.hr_timesheet_sheet.sheet</field>
+        <field name="model">hr_timesheet_sheet.sheet</field>
+        <field name="inherit_id" ref="hr_timesheet_sheet.hr_timesheet_sheet_form"/>
+        <field name="groups_id" eval="[(4, ref('dba_ar_modify.group_user_dba'))]"/>
+        <field name="arch" type="xml">
+        	<xpath expr="//notebook/page/field[@name='timesheet_ids']" position="attributes">
+				<attribute name="readonly">1</attribute>
+			</xpath>
+        </field>
+    </record>
+</odoo>
