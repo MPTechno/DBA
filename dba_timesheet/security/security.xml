@@ -10,6 +10,7 @@
         <field name="name">Can See "Submit to Manager" button</field>
     </record> -->
 
+    <!-- remove sub admin from timesheet group for display all timesheet -->
     <record id="dba_ar_modify.timesheet_comp_rule_user_wise" model="ir.rule">
         <field name="name">hr_timesheet_sheet.sheet</field>
         <field name="model_id" search="[('model','=','hr_timesheet_sheet.sheet')]" model="ir.model"/>

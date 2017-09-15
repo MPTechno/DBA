@@ -26,7 +26,8 @@ from odoo import fields, models, api, exceptions
 class account_analytic_account(models.Model):
     _inherit = 'account.analytic.account'
 
-    state        = fields.Selection([
+    # change state name line new = Potential and in progress= Confirmed
+    state = fields.Selection([
         ('template', 'Template'),
         ('draft', 'Potential'),
         ('open', 'Confirmed'),

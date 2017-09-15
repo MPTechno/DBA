@@ -9,6 +9,7 @@ import calendar
 class HrExpense(models.Model):
     _inherit = 'hr.expense'
 
+    # display only own expenses for sub admin group
     @api.model
     def search(self, args, offset=0, limit=None, order=None, count=False):
         context = self._context or {}

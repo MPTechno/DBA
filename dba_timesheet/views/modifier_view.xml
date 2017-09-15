@@ -26,4 +26,17 @@
 			</xpath>
         </field>
     </record>
+
+    <!-- Hide taxes in expenses form view-->
+    <record id="hide_tax_hr_expense_form_view" model="ir.ui.view">
+        <field name="name">hide.tax.hr.expense.form.view</field>
+        <field name="model">hr.expense</field>
+        <field name="inherit_id" ref="dba_expense.hr_expense_hr_expense_form_view_dba"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='tax_ids']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+    
 </odoo>
