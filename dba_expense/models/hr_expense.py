@@ -13,6 +13,29 @@ class hr_expense(models.Model):
     manager_id = fields.Many2one('hr.employee','Approver')
     submit_to_accountant = fields.Boolean('Submitted',readonly=True)
     billable = fields.Selection([('yes','Billable'),('no','Non-Billable')],'Bill Type',default='no')
+    flag = fields.Boolean('Flag') # maintain state using this field. INKAL
+    
+    # On click approve state has been not change for that write this code INKAL
+    @api.depends('sheet_id', 'sheet_id.account_move_id', 'sheet_id.state')
+    def _compute_state(self):
+        for expense in self:
+            if not expense.flag:
+                if not expense.sheet_id:
+                    expense.state = "draft"
+                elif expense.sheet_id.state == "cancel":
+                    expense.state = "refused"
+                elif not expense.sheet_id.account_move_id:
+                    expense.state = "reported"
+                else:
+                    expense.state = "done"
+            if expense.flag:
+                expense.state = "refused"
+
+    # change refuse state on click refused button Inkal
+    @api.multi
+    def refuse_expenses(self):
+        self.state = 'refused'
+        self.flag = True   
     
     @api.multi
     def write(self, values):
@@ -78,13 +101,15 @@ class hr_expense(models.Model):
             if account:
                 self.account_id = account
     
-    @api.depends('quantity', 'unit_amount', 'tax_ids', 'currency_id','product_id')
+    # reduce expenses claim total amount which is in refused state Inkal 
+    @api.depends('quantity', 'unit_amount', 'tax_ids', 'currency_id','product_id', 'state')
     def _compute_amount(self):
         for expense in self:
-            expense.total_amount = expense.unit_amount * expense.quantity
-            expense.untaxed_amount = expense.unit_amount * expense.quantity
-            taxes = expense.tax_ids.compute_all(expense.unit_amount, expense.currency_id, expense.quantity, expense.product_id, expense.employee_id.user_id.partner_id)
-            expense.total_amount = taxes.get('total_included')
+            if expense.state != 'refused':
+                expense.total_amount = expense.unit_amount * expense.quantity
+                expense.untaxed_amount = expense.unit_amount * expense.quantity
+                taxes = expense.tax_ids.compute_all(expense.unit_amount, expense.currency_id, expense.quantity, expense.product_id, expense.employee_id.user_id.partner_id)
+                expense.total_amount = taxes.get('total_included')
     
     
     @api.multi
