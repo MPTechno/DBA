@@ -32,6 +32,13 @@
         <field name="name">User</field>
         <field name="category_id" ref="module_dba_ar_modify"/>
     </record>
+
+    <!-- Add marketing DBA group INKAL -->
+    <record id="group_marketing_dba" model="res.groups">
+        <field name="name">Marketing DBA</field>
+        <field name="category_id" ref="module_dba_ar_modify"/>
+        <field name="implied_ids" eval="[(4, ref('group_sub_admin_dba'))]"/>
+    </record>
        
     <record id="timesheet_comp_rule_user_wise" model="ir.rule">
         <field name="name">hr_timesheet_sheet.sheet</field>
