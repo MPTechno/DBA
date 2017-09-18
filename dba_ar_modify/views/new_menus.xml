@@ -20,9 +20,10 @@
         groups="group_manager_dba,group_sub_admin2_dba"/>
             
     <!---Timesheet/my current ts-->
+    <!-- change sequence 51 to 1 INKAL -->
     <menuitem name="Timesheets" 
         id="menu_timesheets_root_one" 
-        sequence="51" 
+        sequence="1" 
         groups="group_user_dba,group_manager_dba,group_sub_admin2_dba"/>
     <menuitem id="my_timesheet_two" 
         name="My Timesheet" 
