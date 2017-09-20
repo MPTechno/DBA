@@ -14,20 +14,20 @@
         </field>
     </record>
 
-    <!-- Readonly Details tab in timesheet  for "DBA AR Modify- User" only-->
+    <!-- Readonly Details tab in timesheet  for "DBA AR Modify- User" only INKAL-->
 	<record id="dba_user_readonly_hr_timesheet_sheet_sheet" model="ir.ui.view">
         <field name="name">dba.user.readonly.hr_timesheet_sheet.sheet</field>
         <field name="model">hr_timesheet_sheet.sheet</field>
-        <field name="inherit_id" ref="hr_timesheet_sheet.hr_timesheet_sheet_form"/>
+        <field name="inherit_id" ref="hr_timesheet_invoice.hr_timesheet_sheet_form"/>
         <field name="groups_id" eval="[(4, ref('dba_ar_modify.group_user_dba'))]"/>
         <field name="arch" type="xml">
-        	<xpath expr="//notebook/page/field[@name='timesheet_ids']" position="attributes">
+        	<xpath expr="//field[@name='timesheet_ids']/tree/field[@name='account_id']" position="attributes">
 				<attribute name="readonly">1</attribute>
 			</xpath>
         </field>
     </record>
 
-    <!-- Hide taxes in expenses form view-->
+    <!-- Hide taxes in expenses form view INKAL-->
     <record id="hide_tax_hr_expense_form_view" model="ir.ui.view">
         <field name="name">hide.tax.hr.expense.form.view</field>
         <field name="model">hr.expense</field>
@@ -38,5 +38,23 @@
             </xpath>
         </field>
     </record>
+
+    <!-- Hide button for group_user_dba only INKAL-->
+    <record id="dba_user_hide_header_account_analytic_account_form" model="ir.ui.view">
+        <field name="name">dba.user.hide.header.account.analytic.account.form</field>
+        <field name="model">account.analytic.account</field>
+        <field name="inherit_id" ref="account_analytic_analysis.account_analytic_account_form_form"/>
+        <field name="groups_id" eval="[(4, ref('dba_ar_modify.group_user_dba'))]"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="replace">
+                <header>
+                    <field name="state" readonly="1" widget="statusbar"
+                        statusbar_visible="open,pending,close" statusbar_colors='{"pending":"red", "template":"blue"}'/>
+                </header>
+            </xpath>
+        </field>
+    </record>
+
+    
     
 </odoo>

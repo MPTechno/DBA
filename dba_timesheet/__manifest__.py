@@ -5,7 +5,7 @@
     "version": "1.0",
     "website": "www.hashmicro.com",
     "category": "timesheet",
-    "depends": ['hr_timesheet_sheet','hr_timesheet_invoice','hr_timesheet','dba_ar_modify','dba_expense'],
+    "depends": ['hr_timesheet_sheet','hr_timesheet_invoice','hr_timesheet','dba_ar_modify','dba_expense', 'account_analytic_analysis'],
     "data": [
         'security/security.xml',
         'security/ir.model.access.csv',
