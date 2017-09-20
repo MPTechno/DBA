@@ -35,7 +35,7 @@
 
     <!-- Add marketing DBA group INKAL -->
     <record id="group_marketing_dba" model="res.groups">
-        <field name="name">Marketing DBA</field>
+        <field name="name">Marketing-DDBA</field>
         <field name="category_id" ref="module_dba_ar_modify"/>
         <field name="implied_ids" eval="[(4, ref('group_sub_admin_dba'))]"/>
     </record>
