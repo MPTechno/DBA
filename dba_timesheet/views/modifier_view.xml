@@ -24,6 +24,12 @@
         	<xpath expr="//field[@name='timesheet_ids']/tree/field[@name='account_id']" position="attributes">
 				<attribute name="readonly">1</attribute>
 			</xpath>
+			<xpath expr="//field[@name='timesheet_ids']/tree/field[@name='journal_id']" position="attributes">
+				<attribute name="readonly">1</attribute>
+			</xpath>
+			<xpath expr="//field[@name='timesheet_ids']/tree/field[@name='general_account_id']" position="attributes">
+				<attribute name="readonly">1</attribute>
+			</xpath>
         </field>
     </record>
 
