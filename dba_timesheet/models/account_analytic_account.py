@@ -29,7 +29,7 @@ class account_analytic_account(models.Model):
     # change state name line new = Potential and in progress= Confirmed
     state = fields.Selection([
         ('template', 'Template'),
-        ('draft', 'Potential'),
+        ('draft', 'Proposal'),
         ('open', 'Confirmed'),
         ('pending', 'To Renew'),
         ('close', 'Closed'),
