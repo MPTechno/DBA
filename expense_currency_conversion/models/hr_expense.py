@@ -23,6 +23,6 @@ class HrExpense(models.Model):
     
     @api.multi
     def apply_rate(self):
-        total_amount = self.non_company_currency_rate * self.unit_amount * self.quantity
-        return self.write({'total_amount': total_amount})
+        unit_amount = self.non_company_currency_rate * self.unit_amount
+        return self.write({'unit_amount': unit_amount})
     
