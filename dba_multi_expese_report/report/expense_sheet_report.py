@@ -14,7 +14,8 @@ class expense_sheet_report_dba(models.AbstractModel):
         result = []
         for expense_obj in expense_objs:
             for expense in expense_obj.expense_line_ids:
-                result.append(expense)
+                if expense.state != 'refused':
+                    result.append(expense)
         return result
     
     @api.multi
