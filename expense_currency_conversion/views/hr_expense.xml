@@ -20,7 +20,8 @@
             <field name="arch" type="xml">
                 <xpath expr="//form/sheet/field[@name='expense_line_ids']/tree/field[@name='total_amount']" position="after">
                     <field name="is_different_currency" invisible="1"/>
-                    <button name="apply_rate" type="object" string="Apply Rate" attrs='{"invisible":[("is_different_currency","=",False)]}' class="oe_highlight"/>
+                    <field name="rate_applied" invisible="1"/>
+                    <button name="apply_rate" type="object" string="Apply Rate" groups="account.group_account_manager" attrs='{"invisible":["|",("is_different_currency","=",False),("rate_applied","=",True)]}' class="oe_highlight"/>
                 </xpath>
             </field>
         </record>

@@ -5,7 +5,7 @@
     "version": "1.0",
     "website": "www.hashmicro.com",
     "category": "expense",
-    "depends": ['hr_expense'],
+    "depends": ['hr_expense','account'],
     "data": [
 		'views/hr_expense.xml',
     ],
