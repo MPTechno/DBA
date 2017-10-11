@@ -377,6 +377,7 @@ odoo.define('hr_timesheet_invoice', function (require) {
                     self.set({sheets: ops});
                     self.destroy_content();
                 });
+            this._super.apply(this, arguments);
             },
             get_box: function (account, day_count) {
                     return this.$('[data-project="' + account.account_id + '"][data-day-count="' + day_count + '"][data-code7="' + account.code7_id + '"]');

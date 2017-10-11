@@ -9,6 +9,7 @@
     "data": [
         'security/security.xml',
         'security/ir.model.access.csv',
+        'views/timesheet_assets.xml',
 		'views/timesheet_view.xml',
         'views/modifier_view.xml',
 		'data/cron.xml',

@@ -6,6 +6,11 @@ from datetime import datetime,time
 from dateutil.relativedelta import relativedelta
 import calendar
 
+class Resusers(models.Model):
+	_inherit = 'res.users'
+
+	see_create_edit_in_timesheet = fields.Boolean('Create Edit In Timesheet')
+
 class HrExpense(models.Model):
     _inherit = 'hr.expense'
 
