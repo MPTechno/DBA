@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-
-    <template id="assets_backend_new" name="hm_custom_css" inherit_id="web.assets_backend">
-        <xpath expr="." position="inside">
-            <link rel="stylesheet" href="/field_editor/static/src/css/custom_css.less"/>
-        </xpath>
-    </template>
-</odoo>
